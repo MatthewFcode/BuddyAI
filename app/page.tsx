@@ -1,9 +1,9 @@
 'use client' // declares this component a client component
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { UserPrompt, AIReply } from '../models/interface'
-import { welcomeMessage } from '../welcome/welcome'
+
 // so this is a server component by default so it cannot use interactive handlers
 function Harry() {
   const [prompt, setPrompt] = useState('')
@@ -30,14 +30,19 @@ function Harry() {
     setReply(data.reply) // server responds with a object with the reply property and we access that property || both GET and POST requests send back responses from the server
   }
 
-  //set time out for changing the state
+  //useEffect that runs on the component mount with setTimeout and Get request
 
-  setTimeout(() => {
-    // run the langchain function
-    const message: string = welcomeMessage()
+  useEffect(() => {
+    const fetchWelcome = async () => {
+      const response = await fetch('/api/welcome')
+      const message = await response.json()
+      setDashboardMessage(message)
+    }
 
-    setDashboardMessage(message)
-  }, 600000)
+    setTimeout(() => {
+      fetchWelcome()
+    }, 600000)
+  }, [])
 
   return (
     <div>

@@ -3,10 +3,14 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { UserPrompt, AIReply } from '../models/interface'
+import { welcomeMessage } from '../welcome/welcome'
 // so this is a server component by default so it cannot use interactive handlers
 function Harry() {
   const [prompt, setPrompt] = useState('')
   const [reply, setReply] = useState('')
+  const [dashboardMessage, setDashboardMessage] = useState(
+    'Welcome back to the show matthew'
+  )
   // in the same directory so will be the home page?
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -25,10 +29,22 @@ function Harry() {
 
     setReply(data.reply) // server responds with a object with the reply property and we access that property || both GET and POST requests send back responses from the server
   }
+
+  //set time out for changing the state
+
+  setTimeout(() => {
+    // run the langchain function
+    const message: string = welcomeMessage()
+
+    setDashboardMessage(message)
+  }, 600000)
+
   return (
     <div>
       <Link href="/history">History</Link>
       <h1>Chat with Harry</h1>
+      <div>{/* div for the lottie */}</div>
+      <div>{dashboardMessage}</div>
       <div>
         <form onSubmit={handleSubmit}>
           <input

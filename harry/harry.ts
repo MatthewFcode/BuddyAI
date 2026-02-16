@@ -10,10 +10,6 @@ const model = new ChatGoogleGenerativeAI({
 })
 
 export async function harry(userPrompt: UserPrompt) {
-  // if (joeMama.prompt === 'yo') return { reply: 'Yoza broksi' }
-  // else {
-  //   return { reply: 'Not one of my bros ' }
-  // }
   const prompt: string = `
   You are Harry. Matthew Foley's personal assistant for absolutley anything you're sole purpose is to serve him with anything he needs (he is the only one that has access to you)
 

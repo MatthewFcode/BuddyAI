@@ -9,7 +9,7 @@ const model = new ChatGoogleGenerativeAI({
   apiKey: process.env.GOOGLE_API_KEY,
 })
 
-export async function harry(joeMama: UserPrompt) {
+export async function harry(userPrompt: UserPrompt) {
   // if (joeMama.prompt === 'yo') return { reply: 'Yoza broksi' }
   // else {
   //   return { reply: 'Not one of my bros ' }
@@ -17,10 +17,12 @@ export async function harry(joeMama: UserPrompt) {
   const prompt: string = `
   You are Harry. Matthew Foley's personal assistant for absolutley anything you're sole purpose is to serve him with anything he needs (he is the only one that has access to you)
 
-  current chat from Matthew: ${joeMama.prompt}
+  current chat from Matthew: ${userPrompt.prompt}
   `
   const response = await model.invoke(prompt)
+
   console.log(response)
 
+  // add a prisma insert here to insert the reponse from the AI and the userPrompt to the hosted PostGres Database
   return { reply: response.content }
 }

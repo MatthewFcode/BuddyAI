@@ -1,4 +1,4 @@
-import 'dotenv/config'
+//import 'dotenv/config'
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
 import { UserPrompt, AIReply } from '../models/interface'
 
@@ -6,6 +6,7 @@ const model = new ChatGoogleGenerativeAI({
   model: 'models/gemini-flash-latest',
   temperature: 0.3,
   streaming: true,
+  apiKey: process.env.GOOGLE_API_KEY,
 })
 
 export async function harry(joeMama: UserPrompt) {
@@ -19,6 +20,7 @@ export async function harry(joeMama: UserPrompt) {
   current chat from Matthew: ${joeMama.prompt}
   `
   const response = await model.invoke(prompt)
+  console.log(response)
 
-  return { reply: response }
+  return { reply: response.content }
 }

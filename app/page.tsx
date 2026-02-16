@@ -16,9 +16,9 @@ function Harry() {
       // sending and HTTP request from the browser to our api route / next server that we don't manage
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json', // serilaazing our sent data to raw JSON
+        'Content-Type': 'application/json', // serialising our sent data to raw JSON
       },
-      body: JSON.stringify({ prompt: prompt }), //sending the prompt variable as JSON as the req.body
+      body: JSON.stringify({ prompt: prompt }), // sending the prompt variable as JSON as the req.body
     })
 
     const data: AIReply = await res.json() // the server sending JSON back??

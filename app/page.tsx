@@ -18,7 +18,7 @@ function Harry() {
       headers: {
         'Content-Type': 'application/json', // serilaazing our sent data to raw JSON
       },
-      body: JSON.stringify({ body: prompt }), //sending the prompt variable as JSON as the req.body
+      body: JSON.stringify({ prompt: prompt }), //sending the prompt variable as JSON as the req.body
     })
 
     const data: AIReply = await res.json() // the server sending JSON back??
@@ -48,3 +48,5 @@ function Harry() {
     </div>
   )
 }
+
+export default Harry

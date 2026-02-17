@@ -12,11 +12,9 @@ export async function welcomeMessage() {
      
     I need to you come up with a welcome message no longer than a sentence. 
     
-     The tone needs to be springy and upbeat.`
+     The tone should be subtle but positive`
 
   const response = await model.invoke(prompt)
-
-  console.log(response)
 
   return response.content
 }

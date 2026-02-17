@@ -39,9 +39,13 @@ function Harry() {
       setDashboardMessage(message)
     }
 
-    setTimeout(() => {
+    fetchWelcome()
+
+    const interval = setInterval(() => {
       fetchWelcome()
-    }, 600000)
+    }, 30000000) // this is 5 minutes with two 0s removed
+
+    return () => clearInterval(interval) // clear the interval to stop the interval from running in memory when the component unmounts
   }, [])
 
   return (

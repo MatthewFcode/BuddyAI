@@ -12,6 +12,7 @@
     "@langchain/google-genai": "^2.1.18",
     "@prisma/client": "^7.4.0",
     "langchain": "^1.2.24",
+    "langfuse": "^3.38.6",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3"

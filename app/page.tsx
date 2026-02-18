@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { AIReply } from '../models/interface'
 import Lottie from 'lottie-react'
-import harryAnimation from '../src/animations/ai animation Flow 1.json'
+
+import harryAnimation from '../src/animations/AI logo Foriday.json'
 
 // so this is a server component by default so it cannot use interactive handlers
 function Harry() {

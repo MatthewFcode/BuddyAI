@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@langchain/google-genai": "^2.1.18",
+    "@lottiefiles/dotlottie-react": "^0.18.1",
     "@prisma/client": "^4.15.0",
     "langchain": "^1.2.24",
     "langfuse": "^3.38.6",

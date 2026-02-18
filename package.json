@@ -10,10 +10,11 @@
   },
   "dependencies": {
     "@langchain/google-genai": "^2.1.18",
-    "@prisma/client": "^7.4.0",
+    "@prisma/client": "^4.15.0",
     "langchain": "^1.2.24",
     "langfuse": "^3.38.6",
     "next": "16.1.6",
+    "prisma": "^4.15.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
@@ -25,7 +26,6 @@
     "dotenv": "^17.3.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
-    "prisma": "^7.4.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

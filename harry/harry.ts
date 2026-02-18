@@ -2,6 +2,9 @@
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
 import { UserPrompt } from '../models/interface'
 import { Langfuse } from 'langfuse'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 const model = new ChatGoogleGenerativeAI({
   model: 'models/gemini-flash-latest',

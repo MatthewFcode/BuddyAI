@@ -8,5 +8,5 @@ export async function POST(request: Request) {
 
   const harryResponse = await harry(body)
 
-  return NextResponse.json(harryResponse)
+  return NextResponse.json(harryResponse) // basicall returns the response from Harry to the client (without  streaming yet and without the need for a get request from the client)
 }

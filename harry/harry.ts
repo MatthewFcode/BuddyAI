@@ -2,9 +2,9 @@
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
 import { UserPrompt } from '../models/interface'
 import { Langfuse } from 'langfuse'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../prismaClient'
 
-const prisma = new PrismaClient()
+// const prisma = new PrismaClient()
 
 const model = new ChatGoogleGenerativeAI({
   model: 'models/gemini-flash-latest',
@@ -32,6 +32,14 @@ export async function harry(userPrompt: UserPrompt) {
   current chat from Matthew: ${userPrompt.prompt}
   `
   const response = await model.invoke(prompt)
+
+  // inserting the current user prompt and the chat from the AI into the database
+  await prisma.conversation.create({
+    data: {
+      userPrompt: userPrompt.prompt,
+      aiReply: response.content as string,
+    },
+  })
 
   //updating the current langfuse trace with the output from the user
   trace.update({

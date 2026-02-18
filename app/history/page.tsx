@@ -1,13 +1,15 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Conversation } from '../../models/interface'
 
 function History() {
   const [historyState, setHistoryState] = useState<Conversation[]>([])
 
-  const handleTodayClick = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleTodayClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault()
 
     const res = await fetch('/api/chat/today', {
@@ -19,7 +21,9 @@ function History() {
     setHistoryState(history)
   }
 
-  const handleWeekClick = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleWeekClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault()
 
     const res = await fetch('/api/chat/week', {
@@ -32,7 +36,7 @@ function History() {
   }
 
   const handleAllHistoryClick = async (
-    event: React.FormEvent<HTMLFormElement>
+    event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
 
@@ -45,6 +49,19 @@ function History() {
     setHistoryState(history)
   }
 
+  useEffect(() => {
+    const loadDefault = async () => {
+      const res = await fetch('api/chat/today', {
+        method: 'GET',
+      })
+      const todaysHistory: Conversation[] = await res.json()
+
+      setHistoryState(todaysHistory)
+    }
+
+    loadDefault()
+  }, [])
+
   return (
     <div>
       <Link href="/">Home</Link>
@@ -54,13 +71,13 @@ function History() {
         <div>
           <ul>
             <li>
-              <button onClick={() => handleTodayClick}>Today</button>
+              <button onClick={(e) => handleTodayClick(e)}>Today</button>
             </li>
             <li>
-              <button onClick={() => handleWeekClick}>This Week</button>
+              <button onClick={(e) => handleWeekClick(e)}>This Week</button>
             </li>
             <li>
-              <button onClick={() => handleAllHistoryClick}>
+              <button onClick={(e) => handleAllHistoryClick(e)}>
                 All Time History
               </button>
             </li>

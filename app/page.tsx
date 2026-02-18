@@ -9,7 +9,7 @@ function Harry() {
   const [prompt, setPrompt] = useState('')
   const [reply, setReply] = useState('')
   const [dashboardMessage, setDashboardMessage] = useState(
-    'Welcome back to the show matthew'
+    '☀️ Back into the mahi sunshine ☀️ '
   )
   // in the same directory so will be the home page?
 

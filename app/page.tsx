@@ -2,7 +2,9 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { UserPrompt, AIReply } from '../models/interface'
+import { AIReply } from '../models/interface'
+import Lottie from 'lottie-react'
+import harryAnimation from '../src/animations/ai animation Flow 1.json'
 
 // so this is a server component by default so it cannot use interactive handlers
 function Harry() {
@@ -11,6 +13,7 @@ function Harry() {
   const [dashboardMessage, setDashboardMessage] = useState(
     '☀️ Back into the mahi sunshine ☀️ '
   )
+
   // in the same directory so will be the home page?
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -52,7 +55,10 @@ function Harry() {
     <div>
       <Link href="/history">History</Link>
       <h1>Chat with Harry</h1>
-      <div>{/* div for the lottie */}</div>
+      <div>
+        {/* div for the lottie */}
+        <Lottie animationData={harryAnimation} loop autoplay={true} />
+      </div>
       <div>{dashboardMessage}</div>
       <div>
         <form onSubmit={handleSubmit}>

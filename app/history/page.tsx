@@ -2,21 +2,19 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { Conversation } from '../../models/interface'
 
 function History() {
-  const [historyState, setHistoryState] = useState('')
+  const [historyState, setHistoryState] = useState<Conversation[]>([])
 
   const handleTodayClick = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const res = await fetch('/api/chat', {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
     })
 
-    const history = await res.json() // history needs to be deconstructed into the human reply | the ai reply and then the time of the conversation
+    const history: Conversation[] = await res.json() // the Get is going to return an array of the conversation objects
 
     setHistoryState(history)
   }

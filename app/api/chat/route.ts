@@ -13,6 +13,7 @@ export async function POST(request: Request) {
   return NextResponse.json(harryResponse) // basicall returns the response from Harry to the client (without  streaming yet and without the need for a get request from the client)
 }
 
+// GET route for all chats
 export async function GET(request: Request) {
   // getting all entries from the database for full history
   const fullHistory = await prisma.conversation.findMany()

@@ -5,3 +5,10 @@ export interface AIReply {
 export interface UserPrompt {
   prompt: string
 }
+
+export interface Conversation {
+  id: number
+  userPrompt: string
+  aiReply: string
+  chatTime: string
+}

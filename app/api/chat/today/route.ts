@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   const start = new Date() // gets the current day
   start.setHours(0, 0, 0, 0)
 
-  const todaysHistory: Conversation = prisma.conversation.findMany({
+  const todaysHistory: Conversation[] = await prisma.conversation.findMany({
     where: { chatTime: { gte: start } },
     orderBy: { chatTime: 'desc' },
   })

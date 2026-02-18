@@ -53,13 +53,37 @@ function History() {
         <h1>Harry Conversation History</h1>
         <div>
           <ul>
-            <li onClick={handleTodayClick}>Today</li>
-            <li>This Week</li>
-            <li>All Time History</li>
+            <li>
+              <button onClick={() => handleTodayClick}>Today</button>
+            </li>
+            <li>
+              <button onClick={() => handleWeekClick}>This Week</button>
+            </li>
+            <li>
+              <button onClick={() => handleAllHistoryClick}>
+                All Time History
+              </button>
+            </li>
           </ul>
         </div>
       </div>
       {/* Seperation for the right hand side */}
+
+      <div>
+        {historyState.map((d: Conversation, i: number) => (
+          <div key={i}>
+            <p>
+              <em>{new Date(d.chatTime).toLocaleString()}</em>
+            </p>
+            <p>
+              <strong>Matthew:</strong> {d.userPrompt}
+            </p>
+            <p>
+              <strong>Harry:</strong> {d.aiReply}
+            </p>
+          </div>
+        ))}
+      </div>
       <div></div>
     </div>
   )

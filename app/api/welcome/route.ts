@@ -6,5 +6,5 @@ import { welcomeMessage } from '../../../welcome/welcome'
 export async function GET(request: Request) {
   // const response = await welcomeMessage()
 
-  return NextResponse.json('no')
+  return NextResponse.json('Straight back at it Matthew')
 }

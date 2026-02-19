@@ -1,0 +1,369 @@
+// ── Keyframes ──────────────────────────────────────────────────────────────────
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+
+
+// ── Page wrapper ───────────────────────────────────────────────────────────────
+
+.page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: #1a0533;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// ── Background atmosphere ──────────────────────────────────────────────────────
+
+.bgLayer {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+
+.bgGlowCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: rgba(107, 33, 168, 0.2);
+  filter: blur(120px);
+}
+
+.bgGlowTop {
+  position: absolute;
+  top: -160px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 4cqh;
+  border-radius: 50%;
+  background: rgba(147, 51, 234, 0.1);
+  filter: blur(80px);
+}
+
+.bgGlowBottom {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.15);
+  filter: blur(120px);
+}
+
+.bgNoise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+// ── Nav ────────────────────────────────────────────────────────────────────────
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+}
+
+// pill-shaped History button with curved left + right borders
+.navHistory {
+  color: white;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+  text-decoration: none;
+
+  padding: 8px 20px;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  //border-top: 2px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  transition: all 0.25s;
+  margin-left: 3rem;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: white;
+    transform: scale(1.05);
+  }
+}
+
+.navTitle {
+  color: white;
+  font-size: 5rem;
+  font-weight: 1000;
+  letter-spacing: 3rem;
+  text-transform: uppercase;
+  user-select: none;
+margin: 10
+}
+
+.navBuddy {
+  color: white;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  margin-right: 3rem;
+}
+
+// ── Main content column ────────────────────────────────────────────────────────
+
+.main {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  // max-width: 672px;
+  max-width: 1300px;
+  min-height: 100vh;
+  padding: 80px 24px 32px;
+}
+
+// ── Top area ───────────────────────────────────────────────────────────────────
+
+.topArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+  gap: 28px;
+  width: 100%;
+}
+
+// ── Lottie animation ───────────────────────────────────────────────────────────
+
+.animationWrapper {
+  position: relative;
+  width: 700px;
+  height: 700px;
+  transition: transform 0.7s;
+  margin-bottom: -5rem;
+
+  &.loading {
+    transform: scale(1.08);
+
+    .animationGlow {
+      background: rgba(168, 85, 247, 0.3);
+      filter: blur(20px);
+      transform: scale(1.3);
+    }
+
+    .pingRing {
+      display: block;
+    }
+  }
+}
+
+.animationGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.08);
+  filter: blur(16px);
+  transform: scale(1);
+  transition: all 0.7s;
+}
+
+.lottie {
+  width: 100%;
+  height: 100%;
+  // height: 400px;
+  // width: 400px;
+  position: relative;
+  z-index: 1;
+}
+
+.pingRing {
+  display: none;
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+// ── Welcome message ────────────────────────────────────────────────────────────
+
+.welcomeMessage {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 1s, transform 1s;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ── AI Reply box ───────────────────────────────────────────────────────────────
+
+.replyWrapper {
+  width: 100%;
+  align-self: flex-start;
+  margin-left: -8px;
+  animation: fadeSlideUp 0.4s ease both;
+}
+
+.replyBox {
+  position: relative;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 20px 24px 20px 28px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+}
+
+.replyAccent {
+  position: absolute;
+  left: 0;
+  top: 16px;
+  bottom: 16px;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, #a855f7, #7c3aed);
+  opacity: 0.9;
+}
+
+// ── Input bar ──────────────────────────────────────────────────────────────────
+
+.bottomArea {
+  width: 100%;
+  
+  margin-top: 24px;
+
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.inputWrapper {
+  position: relative;
+  flex: 1;
+}
+
+.input {
+  width: 100%;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 20px 24px;
+  outline: none;
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.38);
+    font-weight: 500;
+  }
+
+  &:focus {
+    border-color: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.17);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.07);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.sendButton {
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #9333ea, #6d28d9);
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 20px 28px;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.1s;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    box-shadow: 0 0 24px rgba(168, 85, 247, 0.5);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.hint {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 12px;
+  user-select: none;
+}

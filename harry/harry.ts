@@ -47,6 +47,5 @@ export async function harry(userPrompt: UserPrompt) {
     output: response.content,
   })
 
-  // add a prisma insert here to insert the reponse from the AI and the userPrompt to the hosted PostGres Database
   return { reply: response.content }
 }

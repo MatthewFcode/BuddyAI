@@ -1,16 +1,5 @@
 import type { Metadata } from 'next' // typescript type for metdata
-import { Geist, Geist_Mono } from 'next/font/google' // literally just a gooogle font import? but why
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  // loading the font objects in directly to the code (we can attatch these as CSS vairable into HTML tags) | preloaded and optimized rather than <Linking them it>
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-})
+import '../globals.css'
 
 export const metadata: Metadata = {
   // new way to defined the head of the HTML tag (e.t.c an SPA app that is using react)
@@ -26,11 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   )
 }

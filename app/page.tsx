@@ -90,8 +90,11 @@ import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { AIReply } from '../models/interface'
 import Lottie, { LottieRefCurrentProps } from 'lottie-react'
-import harryAnimation from '../src/animations/AI logo Foriday.json'
+//import harryAnimation from '../src/animations/AI logo Foriday.json'
+import harryAnimation from '../src/animations/ai animation Flow 1.json'
 import styles from './styles/harry.module.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCopy } from '@fortawesome/free-solid-svg-icons'
 
 // ── Nav Component ──────────────────────────────────────────────────────────────
 function Nav() {
@@ -111,11 +114,30 @@ function Nav() {
 // ── Main Page ──────────────────────────────────────────────────────────────────
 function Harry() {
   const [prompt, setPrompt] = useState('')
+  //const [copiedText, setCopiedText] = useState('')
+  const [isCopied, setIsCopied] = useState(false)
+  // ai states
   const [reply, setReply] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  // state for the welcome message
   const [dashboardMessage, setDashboardMessage] = useState('')
+  // ai state? that could be removed
   const [messageVisible, setMessageVisible] = useState(false)
+
   const lottieRef = useRef<LottieRefCurrentProps | null>(null)
+
+  //handler function for copying text from ai response
+  const copyText = async () => {
+    if (!reply.trim()) {
+      return
+    }
+
+    await navigator.clipboard.writeText(reply)
+
+    setIsCopied(true)
+
+    setTimeout(() => setIsCopied(false), 10000) // set timeout for 10 seconds
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -204,14 +226,37 @@ function Harry() {
           </p>
 
           {/* AI Reply box — no thinking dots, just shows reply when ready */}
-          {reply && (
+          {/* {reply && (
             <div className={styles.replyWrapper}>
               <div className={styles.replyBox}>
                 <div className={styles.replyAccent} />
                 {reply}
               </div>
             </div>
-          )}
+          )} */}
+          <div className={styles.replyWrapper}>
+            <div className={styles.replyBox}>
+              <div className={styles.replyAccent} />
+
+              {isLoading ? (
+                <div className={styles.thinkingRow}>
+                  <span className={styles.dots}>
+                    <span className={styles.dot} />
+                    <span className={styles.dot} />
+                    <span className={styles.dot} />
+                  </span>
+                  thinking...
+                </div>
+              ) : reply ? (
+                reply
+              ) : (
+                '...response box' // placeholder when idle
+              )}
+              <button className={styles.copyButton} onClick={copyText}>
+                <FontAwesomeIcon icon={faCopy} />
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* ── BOTTOM: Input bar ── */}

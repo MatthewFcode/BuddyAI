@@ -171,16 +171,20 @@ margin: 10
   justify-content: center;
   gap: 28px;
   width: 100%;
+  position: relative; // add this
 }
+
+
 
 // ── Lottie animation ───────────────────────────────────────────────────────────
 
 .animationWrapper {
   position: relative;
-  width: 700px;
-  height: 700px;
+  width: 630px;
+  height: 630px;
   transition: transform 0.7s;
   margin-bottom: -5rem;
+  
 
   &.loading {
     transform: scale(1.08);
@@ -246,18 +250,45 @@ margin: 10
 // ── AI Reply box ───────────────────────────────────────────────────────────────
 
 .replyWrapper {
-  width: 100%;
-  align-self: flex-start;
-  margin-left: -8px;
+  position: absolute;        // pull it out of flow
+  left: -210px;                   // pin to left edge of topArea
+  top: 25%;
+  transform: translateY(-50%); // vertically align with animation center
+  width: 380px;
+  
   animation: fadeSlideUp 0.4s ease both;
+
+
 }
+
+.copyButton {
+  align-self: flex-end;
+  margin-top: auto;
+  padding-top: 12px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover:active{
+    color: rgba(255, 255, 255, 0.9);
+    transform: scale(1.1)
+  }
+  :active {
+    transform: scale(0.9)
+  }
+
+}
+
 
 .replyBox {
   position: relative;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.1);
+  //background: rgba(255, 255, 255, 0.1);
+  background: rgba(200, 200, 200, 0.20);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 3px solid whitesmoke;
   padding: 20px 24px 20px 28px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   color: #ffffff;
@@ -265,7 +296,12 @@ margin: 10
   font-weight: 600;
   line-height: 1.75;
   letter-spacing: 0.01em;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  
 }
+
 
 .replyAccent {
   position: absolute;
@@ -318,7 +354,8 @@ margin: 10
   }
 
   &:focus {
-    border-color: rgba(255, 255, 255, 0.75);
+    //border-color: rgba(255, 255, 255, 0.75);
+    border-color: whitesmoke;
     background: rgba(255, 255, 255, 0.17);
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.07);
   }
@@ -328,34 +365,7 @@ margin: 10
   }
 }
 
-.sendButton {
-  flex-shrink: 0;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #9333ea, #6d28d9);
-  border: none;
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 20px 28px;
-  cursor: pointer;
-  transition: background 0.3s, box-shadow 0.3s, transform 0.1s;
 
-  &:hover:not(:disabled) {
-    background: linear-gradient(135deg, #a855f7, #7c3aed);
-    box-shadow: 0 0 24px rgba(168, 85, 247, 0.5);
-  }
-
-  &:active:not(:disabled) {
-    transform: scale(0.95);
-  }
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-}
 
 .hint {
   text-align: center;

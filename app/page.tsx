@@ -97,7 +97,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 
 // ── Nav Component ──────────────────────────────────────────────────────────────
-function Nav() {
+export function Nav() {
   return (
     <nav className={styles.nav}>
       <Link href="/history" className={styles.navHistory}>
@@ -161,7 +161,7 @@ function Harry() {
     const fetchWelcome = async () => {
       const response = await fetch('/api/welcome')
       const message = await response.json()
-      setDashboardMessage(message)
+      setDashboardMessage(message.affirmation)
       setTimeout(() => setMessageVisible(true), 100)
     }
 

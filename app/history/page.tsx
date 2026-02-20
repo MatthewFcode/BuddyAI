@@ -65,6 +65,7 @@ function History() {
   return (
     <div>
       <Link href="/">Home</Link>
+
       {/* Seperation for the left hand side  */}
       <div>
         <h1>Harry Conversation History</h1>

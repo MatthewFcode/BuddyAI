@@ -1,3 +1,545 @@
+// // ── Keyframes ──────────────────────────────────────────────────────────────────
+
+// @keyframes fadeSlideUp {
+//   from {
+//     opacity: 0;
+//     transform: translateY(12px);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// }
+
+// @keyframes ping {
+//   75%, 100% {
+//     transform: scale(2);
+//     opacity: 0;
+//   }
+// }
+
+// // ── Page wrapper ───────────────────────────────────────────────────────────────
+
+// .page {
+//   position: relative;
+//   min-height: 100vh;
+//   width: 100%;
+//   overflow: hidden;
+//   background-color: #1a0533;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+// }
+
+// // ── Background atmosphere ──────────────────────────────────────────────────────
+
+// .bgLayer {
+//   pointer-events: none;
+//   position: absolute;
+//   inset: 0;
+// }
+
+// .bgGlowCenter {
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   width: 600px;
+//   height: 600px;
+//   border-radius: 50%;
+//   background: rgba(107, 33, 168, 0.2);
+//   filter: blur(120px);
+// }
+
+// .bgGlowTop {
+//   position: absolute;
+//   top: -160px;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   width: 500px;
+//   height: 4cqh;
+//   border-radius: 50%;
+//   background: rgba(147, 51, 234, 0.1);
+//   filter: blur(80px);
+// }
+
+// .bgGlowBottom {
+//   position: absolute;
+//   bottom: 0;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   width: 600px;
+//   height: 300px;
+//   border-radius: 50%;
+//   background: rgba(124, 58, 237, 0.15);
+//   filter: blur(120px);
+// }
+
+// .bgNoise {
+//   position: absolute;
+//   inset: 0;
+//   opacity: 0.03;
+//   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+//   background-repeat: repeat;
+//   background-size: 128px 128px;
+// }
+
+// // ── Nav ────────────────────────────────────────────────────────────────────────
+
+// .nav {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   z-index: 50;
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   padding: 20px 32px;
+// }
+
+// .navHistory {
+//   color: white;
+//   font-size: 2rem;
+//   font-weight: 800;
+//   letter-spacing: 0.1em;
+//   text-transform: uppercase;
+//   text-decoration: none;
+//   padding: 8px 20px;
+//   border: 2px solid rgba(255, 255, 255, 0.45);
+//   border-radius: 999px;
+//   background: rgba(255, 255, 255, 0.06);
+//   transition: all 0.25s;
+//   margin-left: 3rem;
+
+//   &:hover {
+//     background: rgba(255, 255, 255, 0.14);
+//     border-color: white;
+//     transform: scale(1.05);
+//   }
+// }
+
+// .navTitle {
+//   color: white;
+//   font-size: 5rem;
+//   font-weight: 1000;
+//   letter-spacing: 3rem;
+//   text-transform: uppercase;
+//   user-select: none;
+//   margin: 10px;
+// }
+
+// .navBuddy {
+//   color: white;
+//   font-size: 2rem;
+//   font-weight: 800;
+//   letter-spacing: 0.1em;
+//   text-transform: uppercase;
+//   margin-right: 3rem;
+// }
+
+// // ── Main content column ────────────────────────────────────────────────────────
+
+// .main {
+//   position: relative;
+//   z-index: 10;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: space-between;
+//   width: 100%;
+//   max-width: 1300px;
+//   min-height: 100vh;
+//   padding: 80px 24px 32px;
+// }
+
+// // ── Top area ───────────────────────────────────────────────────────────────────
+
+// .topArea {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   flex: 1;
+//   justify-content: center;
+//   gap: 28px;
+//   width: 100%;
+//   position: relative;
+// }
+
+// // ── Lottie animation ───────────────────────────────────────────────────────────
+
+// .animationWrapper {
+//   position: relative;
+//   width: 617px;
+//   height: 617px;
+//   transition: transform 0.7s;
+//   margin-bottom: -2rem;
+
+//   &.loading {
+//     transform: scale(1.08);
+
+//     .animationGlow {
+//       background: rgba(168, 85, 247, 0.3);
+//       filter: blur(20px);
+//       transform: scale(1.3);
+//     }
+
+//     .pingRing {
+//       display: block;
+//     }
+//   }
+// }
+
+// .animationGlow {
+//   position: absolute;
+//   inset: 0;
+//   border-radius: 50%;
+//   background: rgba(124, 58, 237, 0.08);
+//   filter: blur(16px);
+//   transform: scale(1);
+//   transition: all 0.7s;
+// }
+
+// .lottie {
+//   width: 100%;
+//   height: 100%;
+//   position: relative;
+//   z-index: 1;
+// }
+
+// .pingRing {
+//   display: none;
+//   position: absolute;
+//   inset: 0;
+//   border-radius: 50%;
+//   border: 1px solid rgba(168, 85, 247, 0.4);
+//   animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+// }
+
+// // ── Welcome message ────────────────────────────────────────────────────────────
+
+// .welcomeMessage {
+//   text-align: center;
+//   color: rgba(255, 255, 255, 0.9);
+//   font-size: 1.15rem;
+//   font-weight: 700;
+//   letter-spacing: 0.04em;
+//   opacity: 0;
+//   transform: translateY(12px);
+//   transition: opacity 1s, transform 1s;
+ 
+
+//   &.visible {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// }
+
+// // ── AI Reply box ───────────────────────────────────────────────────────────────
+
+// .replyWrapper {
+//   position: absolute;
+//   left: -210px;
+//   top: 20%;
+//   transform: translateY(-50%);
+//   width: 380px;
+//   animation: fadeSlideUp 0.4s ease both;
+// }
+
+// .copyButton {
+//   align-self: flex-end;
+//   margin-top: auto;
+//   padding-top: 12px;
+//   background: none;
+//   border: none;
+//   color: rgba(255, 255, 255, 0.9);
+//   cursor: pointer;
+//   transition: color 0.2s, transform 0.1s;
+
+//   &:hover {
+//     color: white;
+//     transform: scale(1.1);
+//   }
+
+//   &:active {
+//     transform: scale(0.9);
+//   }
+// }
+
+// .replyBox {
+//   position: relative;
+//   border-radius: 16px;
+//   background: rgba(200, 200, 200, 0.20);
+//   backdrop-filter: blur(12px);
+//   border: 3px solid whitesmoke;
+//   padding: 20px 24px 20px 28px;
+//   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+//   color: #ffffff;
+//   font-size: 1rem;
+//   font-weight: 600;
+//   line-height: 1.75;
+//   letter-spacing: 0.01em;
+//   min-height: 400px;
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// .replyAccent {
+//   position: absolute;
+//   left: 0;
+//   top: 16px;
+//   bottom: 16px;
+//   width: 3px;
+//   border-radius: 999px;
+//   background: linear-gradient(to bottom, #a855f7, #7c3aed);
+//   opacity: 0.9;
+// }
+
+// // ── Input bar ──────────────────────────────────────────────────────────────────
+
+// .bottomArea {
+//   width: 100%;
+//   margin-top: 24px;
+// }
+
+// .form {
+//   display: flex;
+//   align-items: center;
+//   gap: 12px;
+// }
+
+// .inputWrapper {
+//   position: relative;
+//   flex: 1;
+// }
+
+// .input {
+//   width: 100%;
+//   border-radius: 16px;
+//   background: rgba(255, 255, 255, 0.12);
+//   backdrop-filter: blur(12px);
+//   border: 2px solid rgba(255, 255, 255, 0.35);
+//   color: #ffffff;
+//   font-size: 1rem;
+//   font-weight: 600;
+//   letter-spacing: 0.02em;
+//   padding: 20px 24px;
+//   outline: none;
+//   transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+
+//   &::placeholder {
+//     color: rgba(255, 255, 255, 0.38);
+//     font-weight: 500;
+//   }
+
+//   &:focus {
+//     border-color: whitesmoke;
+//     background: rgba(255, 255, 255, 0.17);
+//     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.07);
+//   }
+
+//   &:disabled {
+//     opacity: 0.5;
+//   }
+// }
+
+// .hint {
+//   text-align: center;
+//   color: rgba(255, 255, 255, 0.2);
+//   font-size: 0.65rem;
+//   font-weight: 600;
+//   letter-spacing: 0.15em;
+//   text-transform: uppercase;
+//   margin-top: 12px;
+//   user-select: none;
+// }
+
+// // ── Responsive ─────────────────────────────────────────────────────────────────
+// @media (max-width: 1900px) {
+
+//   .animationWrapper {
+//     width: 590px;
+//     height: 590px;
+//   }
+
+//   .replyWrapper {
+//     left: -100px;
+//     width: 320px;
+//   }
+// }
+// // Large laptops (under 1280px)
+// @media (max-width: 1280px) {
+//   .navHistory {
+//     font-size: 1.4rem;
+//     margin-left: 1.5rem;
+//   }
+
+//   .navTitle {
+//     font-size: 3.5rem;
+//     letter-spacing: 2rem;
+//   }
+
+//   .navBuddy {
+//     font-size: 1.4rem;
+//     margin-right: 1.5rem;
+//   }
+
+//   .animationWrapper {
+//     width: 500px;
+//     height: 500px;
+//   }
+
+//   .replyWrapper {
+//     left: -160px;
+//     width: 320px;
+//   }
+// }
+
+// // Small laptops / tablets landscape (under 1024px)
+// // reply box drops below animation here since there's no room to sit beside it
+// @media (max-width: 1024px) {
+//   .navHistory {
+//     font-size: 1.1rem;
+//     margin-left: 1rem;
+//     padding: 6px 14px;
+//   }
+
+//   .navTitle {
+//     font-size: 2.5rem;
+//     letter-spacing: 1.2rem;
+//   }
+
+//   .navBuddy {
+//     font-size: 1.1rem;
+//     margin-right: 1rem;
+//   }
+
+//   .animationWrapper {
+//     width: 400px;
+//     height: 400px;
+//     margin-bottom: -3rem;
+//   }
+
+//   .replyWrapper {
+//     position: relative;
+//     left: unset;
+//     top: unset;
+//     transform: none;
+//     width: 100%;
+//     max-width: 520px;
+//   }
+
+//   .replyBox {
+//     min-height: 200px;
+//   }
+// }
+
+// // Tablets portrait (under 768px)
+// @media (max-width: 768px) {
+//   .nav {
+//     padding: 14px 16px;
+//   }
+
+//   .navHistory {
+//     font-size: 0.85rem;
+//     margin-left: 0;
+//     padding: 6px 12px;
+//   }
+
+//   .navTitle {
+//     font-size: 1.8rem;
+//     letter-spacing: 0.6rem;
+//   }
+
+//   .navBuddy {
+//     font-size: 0.85rem;
+//     margin-right: 0;
+//   }
+
+//   .main {
+//     padding: 70px 16px 24px;
+//   }
+
+//   .animationWrapper {
+//     width: 300px;
+//     height: 300px;
+//     margin-bottom: -2rem;
+//   }
+
+//   .replyWrapper {
+//     position: relative;
+//     left: unset;
+//     top: unset;
+//     transform: none;
+//     width: 100%;
+//     max-width: 100%;
+//   }
+
+//   .replyBox {
+//     min-height: 160px;
+//     font-size: 0.9rem;
+//   }
+
+//   .welcomeMessage {
+//     font-size: 0.95rem;
+//   }
+
+//   .input {
+//     font-size: 0.9rem;
+//     padding: 16px 18px;
+//   }
+
+//   .topArea {
+//     gap: 20px;
+//   }
+// }
+
+// // Mobile (under 480px)
+// @media (max-width: 480px) {
+//   .nav {
+//     padding: 12px;
+//   }
+
+//   .navHistory {
+//     font-size: 0.65rem;
+//     padding: 5px 10px;
+//   }
+
+//   .navTitle {
+//     font-size: 1.2rem;
+//     letter-spacing: 0.25rem;
+//   }
+
+//   .navBuddy {
+//     font-size: 0.65rem;
+//   }
+
+//   .animationWrapper {
+//     width: 220px;
+//     height: 220px;
+//     margin-bottom: -1.5rem;
+//   }
+
+//   .replyBox {
+//     min-height: 140px;
+//     font-size: 0.85rem;
+//     padding: 14px 16px 14px 20px;
+//   }
+
+//   .welcomeMessage {
+//     font-size: 0.85rem;
+//   }
+
+//   .topArea {
+//     gap: 14px;
+//   }
+
+//   .input {
+//     padding: 14px 16px;
+//   }
+// }
+
+
 // ── Keyframes ──────────────────────────────────────────────────────────────────
 
 @keyframes fadeSlideUp {
@@ -227,7 +769,6 @@
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 1s, transform 1s;
- 
 
   &.visible {
     opacity: 1;
@@ -255,6 +796,7 @@
   color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   transition: color 0.2s, transform 0.1s;
+  flex-shrink: 0; // prevent the button from being squeezed
 
   &:hover {
     color: white;
@@ -279,9 +821,38 @@
   font-weight: 600;
   line-height: 1.75;
   letter-spacing: 0.01em;
-  min-height: 400px;
+  height: 400px; // fixed height
   display: flex;
   flex-direction: column;
+  overflow: hidden; // clip anything escaping the box
+}
+
+// Scrollable text area inside the reply box
+.replyText {
+  flex: 1;
+  min-height: 0; // critical: allows flex child to shrink below content size
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-break: break-word;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168, 85, 247, 0.5) transparent;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.5);
+    border-radius: 999px;
+
+    &:hover {
+      background: rgba(168, 85, 247, 0.8);
+    }
+  }
 }
 
 .replyAccent {
@@ -293,6 +864,39 @@
   border-radius: 999px;
   background: linear-gradient(to bottom, #a855f7, #7c3aed);
   opacity: 0.9;
+}
+
+// ── Thinking dots ──────────────────────────────────────────────────────────────
+
+@keyframes dotPulse {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+.thinkingRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.dots {
+  display: flex;
+  gap: 4px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a855f7;
+  animation: dotPulse 1.4s ease-in-out infinite;
+
+  &:nth-child(1) { animation-delay: 0s; }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.4s; }
 }
 
 // ── Input bar ──────────────────────────────────────────────────────────────────
@@ -430,7 +1034,7 @@
   }
 
   .replyBox {
-    min-height: 200px;
+    height: 200px; // fixed height on smaller screens too
   }
 }
 
@@ -476,7 +1080,7 @@
   }
 
   .replyBox {
-    min-height: 160px;
+    height: 160px;
     font-size: 0.9rem;
   }
 
@@ -521,7 +1125,7 @@
   }
 
   .replyBox {
-    min-height: 140px;
+    height: 140px;
     font-size: 0.85rem;
     padding: 14px 16px 14px 20px;
   }

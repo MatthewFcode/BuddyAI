@@ -225,15 +225,6 @@ function Harry() {
             {dashboardMessage || '\u00a0'}
           </p>
 
-          {/* AI Reply box — no thinking dots, just shows reply when ready */}
-          {/* {reply && (
-            <div className={styles.replyWrapper}>
-              <div className={styles.replyBox}>
-                <div className={styles.replyAccent} />
-                {reply}
-              </div>
-            </div>
-          )} */}
           <div className={styles.replyWrapper}>
             <div className={styles.replyBox}>
               <div className={styles.replyAccent} />

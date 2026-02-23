@@ -125,6 +125,7 @@ function Harry() {
   const [messageVisible, setMessageVisible] = useState(false)
 
   const lottieRef = useRef<LottieRefCurrentProps | null>(null)
+  const replyTextRef = useRef<HTMLDivElement | null>(null)
 
   //handler function for copying text from ai response
   const copyText = async () => {
@@ -241,6 +242,33 @@ function Harry() {
             <div className={styles.replyBox}>
               <div className={styles.replyAccent} />
 
+              {/* ── Scrollable text area ── */}
+              <div ref={replyTextRef} className={styles.replyText}>
+                {isLoading && !reply ? (
+                  <div className={styles.thinkingRow}>
+                    <span className={styles.dots}>
+                      <span className={styles.dot} />
+                      <span className={styles.dot} />
+                      <span className={styles.dot} />
+                    </span>
+                    thinking...
+                  </div>
+                ) : reply ? (
+                  reply
+                ) : (
+                  '...response box'
+                )}
+              </div>
+
+              <button className={styles.copyButton} onClick={copyText}>
+                <FontAwesomeIcon icon={faCopy} />
+              </button>
+            </div>
+          </div>
+          {/* <div className={styles.replyWrapper}>
+            <div className={styles.replyBox}>
+              <div className={styles.replyAccent} />
+
               {isLoading ? (
                 <div className={styles.thinkingRow}>
                   <span className={styles.dots}>
@@ -259,7 +287,7 @@ function Harry() {
                 <FontAwesomeIcon icon={faCopy} />
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* ── BOTTOM: Input bar ── */}

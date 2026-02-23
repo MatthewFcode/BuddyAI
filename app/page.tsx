@@ -152,8 +152,20 @@ function Harry() {
       body: JSON.stringify({ prompt }),
     })
 
-    const data: AIReply = await res.json()
-    setReply(data.reply)
+    const reader = res.body?.getReader()
+    const decoder = new TextDecoder()
+
+    let done = false
+
+    while (!done) {
+      const { value, done: doneReading } = await reader!.read()
+      done = doneReading
+
+      const chunkValue = decoder.decode(value)
+      setReply((prev) => prev + chunkValue)
+      await new Promise((r) => setTimeout(r, 5))
+    }
+
     setIsLoading(false)
   }
 

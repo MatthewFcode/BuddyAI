@@ -9,7 +9,7 @@ import { prisma } from '../prismaClient'
 const model = new ChatGoogleGenerativeAI({
   model: 'models/gemini-flash-latest',
   temperature: 0.3,
-  streaming: false,
+  streaming: true,
   apiKey: process.env.GOOGLE_API_KEY,
 })
 
@@ -31,21 +31,31 @@ export async function harry(userPrompt: UserPrompt) {
 
   current chat from Matthew: ${userPrompt.prompt}
   `
-  const response = await model.invoke(prompt)
+  const stream = await model.stream(prompt)
+
+  let fullResponse: string = ''
+
+  async function* generator() {
+    for await (const chunk of stream) {
+      const token = chunk.content as string
+      fullResponse += token
+      yield token
+    }
+  }
 
   // inserting the current user prompt and the chat from the AI into the database
   await prisma.conversation.create({
     data: {
       userPrompt: userPrompt.prompt,
-      aiReply: response.content as string,
+      aiReply: fullResponse,
     },
   })
 
   //updating the current langfuse trace with the output from the user
   trace.update({
     name: 'Harry',
-    output: response.content,
+    output: fullResponse,
   })
 
-  return { reply: response.content }
+  return generator()
 }

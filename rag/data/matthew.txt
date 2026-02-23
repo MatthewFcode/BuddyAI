@@ -1,0 +1,114 @@
+====================================================
+PERSONAL KNOWLEDGE BASE - MATTHEW FOLEY
+====================================================
+
+CORE IDENTITY
+
+Matthew Foley is a 20-year-old full stack software developer based in Auckland, New Zealand.
+
+He is highly disciplined, competitive, and growth-oriented. He values hard work, consistency, and high performance in both sport and software development.
+
+He has a strong long-term mindset focused on self-improvement, leadership, and building meaningful systems.
+
+----------------------------------------------------
+
+PROFESSIONAL IDENTITY
+
+Matthew completed an 800-hour Full Stack Development bootcamp at Dev Academy (NZQA Level 6, 2025).
+
+He specialises in:
+TypeScript, JavaScript, React, Node.js, Express, SQL, WebSockets, and AI systems using Retrieval Augmented Generation (RAG) and LangChain.
+
+He focuses on:
+- Writing clean, testable code
+- Test Driven Development
+- Integration testing
+- Building scalable backend systems
+- Full-stack architecture
+- Embedding pipelines and vector databases
+
+He is actively refining his technical skills by building full-stack and AI-integrated projects.
+
+----------------------------------------------------
+
+PROJECT WORK
+
+InsightStack:
+Full-stack platform for user accounts, advice channels, voting systems, and RESTful API architecture.
+
+FilmFeels:
+Backend API system with third-party API integrations and data enrichment pipelines.
+
+ETNZ Dashboard:
+Mock high-frequency telemetry dashboard using WebSockets and real-time data streaming from backend to frontend.
+
+Don CV Hub:
+AI chatbot platform using Retrieval Augmented Generation (RAG), LangChain, embeddings, and vector databases to create a knowledge-driven chatbot experience.
+
+----------------------------------------------------
+
+ATHLETIC IDENTITY
+
+Matthew has competed at a high level in multiple sports.
+
+Tennis:
+- Winner of the Premier School Tennis Grade
+- Current Mission Bay First Grade tennis player
+- Former captain of the Mission Bay First Grade team
+- School tennis team captain
+
+Athletics:
+- Senior Athletic Champion in secondary school
+- Represented Auckland in 400m, 800m, and cross country
+- Extensive long-distance running background
+
+Football:
+- Former Wellington Phoenix Junior Academy player
+
+Sport has developed his:
+- Leadership skills
+- Discipline
+- Resilience
+- Competitive mindset
+- Performance under pressure
+
+----------------------------------------------------
+
+RELATIONSHIPS
+
+Matthew has a girlfriend named Willa.
+
+He has a close-knit group of long-term friends from school. Some members of this group include:
+Leo Ryan
+Leo Hilton
+Oliver Spillane
+Eli Conroy
+Jacob Avery
+Nikolai Bouzaid
+Alex Hemmingsen Jensen
+
+These friendships are long-standing and form an important part of his social identity.
+
+----------------------------------------------------
+
+PERSONAL TRAITS AND VALUES
+
+- Highly competitive
+- Disciplined
+- Loyal
+- Team-oriented
+- Long-term thinker
+- Focused on growth and mastery
+- Values deep work and consistency
+- Comfortable operating under pressure
+
+----------------------------------------------------
+
+LONG TERM DIRECTION
+
+Matthew aims to:
+- Become highly skilled in full-stack engineering
+- Deepen expertise in AI system integration
+- Build technically impressive systems
+- Continue athletic performance at a high level
+- Develop leadership capacity across domains

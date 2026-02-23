@@ -31,15 +31,22 @@ export async function harry(userPrompt: UserPrompt) {
 
   current chat from Matthew: ${userPrompt.prompt}
   `
-  const stream = await model.stream(prompt)
+  const stream = await model.stream(prompt) // .stream returns an Async iterable (meaning we can iterate over the tokens the LLM sends back as they are generated)
 
-  let fullResponse: string = ''
+  let fullResponse: string = '' // string to append the full response to
 
   async function* generator() {
+    // asynchrnous generator function which allows the API route to pull tokens from us
     for await (const chunk of stream) {
+      // for await (loop over the tokens as they generate but also wait for them)
       const token = chunk.content as string
+      //console.log('CHUNK:', chunk.content)
       fullResponse += token
-      yield token
+      for (const char of token) {
+        // looping through this because Gemini doesn't return true token streaming it does like sentence level streaming init so I am breaking up these tokens more
+        console.log('Char:', char)
+        yield char // sends the character of a token outward to whoever is consuming this generator
+      }
     }
   }
 
@@ -57,5 +64,5 @@ export async function harry(userPrompt: UserPrompt) {
     output: fullResponse,
   })
 
-  return generator()
+  return generator() // return the generator function for the api route
 }

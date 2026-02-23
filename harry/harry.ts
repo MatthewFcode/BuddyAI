@@ -116,23 +116,23 @@ export async function harry(userPrompt: UserPrompt) {
       // for await (loop over the tokens as they generate but also wait for them)
       const token = chunk.content as string
       //console.log('CHUNK:', chunk.content)
-      //fullResponse += token
+      fullResponse += token
       for (const char of token) {
         // looping through this because Gemini doesn't return true token streaming it does like sentence level streaming init so I am breaking up these tokens more
         console.log('Char:', char)
-        fullResponse += char
+        //fullResponse += char
         yield char // sends the character of a token outward to whoever is consuming this generator
       }
     }
-  }
 
-  // inserting the current user prompt and the chat from the AI into the database
-  await prisma.conversation.create({
-    data: {
-      userPrompt: userPrompt.prompt,
-      aiReply: fullResponse,
-    },
-  })
+    // inserting the current user prompt and the chat from the AI into the database
+    await prisma.conversation.create({
+      data: {
+        userPrompt: userPrompt.prompt,
+        aiReply: fullResponse,
+      },
+    })
+  }
 
   //updating the current langfuse trace with the output from the user
   trace.update({

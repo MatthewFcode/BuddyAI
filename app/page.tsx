@@ -265,29 +265,6 @@ function Harry() {
               </button>
             </div>
           </div>
-          {/* <div className={styles.replyWrapper}>
-            <div className={styles.replyBox}>
-              <div className={styles.replyAccent} />
-
-              {isLoading ? (
-                <div className={styles.thinkingRow}>
-                  <span className={styles.dots}>
-                    <span className={styles.dot} />
-                    <span className={styles.dot} />
-                    <span className={styles.dot} />
-                  </span>
-                  thinking...
-                </div>
-              ) : reply ? (
-                reply
-              ) : (
-                '...response box' // placeholder when idle
-              )}
-              <button className={styles.copyButton} onClick={copyText}>
-                <FontAwesomeIcon icon={faCopy} />
-              </button>
-            </div>
-          </div> */}
         </div>
 
         {/* ── BOTTOM: Input bar ── */}

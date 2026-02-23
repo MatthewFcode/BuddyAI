@@ -1,17 +1,23 @@
-import 'dotenv/config'
-import fs from 'fs'
+import 'dotenv/config' // loads all the environemnt variables in
+import fs from 'fs' // nodes built in file system module (used for checking a files existance or reading the file)
 import path from 'path'
-import { supabase } from './supabase'
-import { pipeline } from '@xenova/transformers'
+//import { supabase } from './supabase'
+import { pipeline } from '@xenova/transformers' // gives us access to the hugging face transformer running locally in node
+import { createClient } from '@supabase/supabase-js'
+
+export const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+)
 
 const embedPipeline = await pipeline(
-  'feature-extraction',
-  'Xenova/all-MiniLM-L6-v2',
+  'feature-extraction', // tells our transformers we want embeddings not text generation
+  'Xenova/all-MiniLM-L6-v2', // hugging face model | produces 384 dimensional embeddings
   { quantized: true }
 )
 
 // helper function for breaking up text
-function chunkText(text, chunkSize = 600, overlap = 100) {
+function chunkText(text, chunkSize = 50, overlap = 10) {
   const words = text.split(' ')
   const chunks = []
   let i = 0
@@ -24,6 +30,7 @@ function chunkText(text, chunkSize = 600, overlap = 100) {
 }
 
 async function getEmbeddings(texts) {
+  // takes the array of text chunks and process each chunk one at a time
   const vectors = []
 
   for (const t of texts) {
@@ -45,14 +52,14 @@ async function getEmbeddings(texts) {
   return vectors
 }
 
-//
+//orchestration function
 async function ingestText(text, baseMetadata = {}) {
   const chunks = chunkText(text) // running the chunking function over the text
 
   console.log(`🔹 Chunked into ${chunks.length} pieces`) // gonna be an array of embedding objects
 
   console.log('🔹 Creating embeddings…')
-  const vectors = await getEmbeddings(chunks) // embed them
+  const vectors = await getEmbeddings(chunks) // creates the embeddings for each chunk
 
   // Sanity check
   vectors.forEach((v, i) => {
@@ -71,12 +78,12 @@ async function ingestText(text, baseMetadata = {}) {
       ...baseMetadata,
       chunk_index: i,
       chunk_count: chunks.length,
-      source: 'don_foley_cv',
+      source: 'matthew_profile',
     },
   }))
 
   console.log('🔹 Inserting into Supabase…')
-  const { error } = await supabase.from('documents').insert(rows)
+  const { error } = await supabase.from('documents').insert(rows) // inserting the rows into supabase
 
   if (error) {
     console.error('❌ Supabase insert error:', error)
@@ -87,7 +94,7 @@ async function ingestText(text, baseMetadata = {}) {
 }
 
 async function main() {
-  const filePath = path.resolve('./data/dad-cv.txt')
+  const filePath = path.resolve('./data/matthew.txt') // resolves abosolute file path
 
   // error handling
   if (!fs.existsSync(filePath)) {
@@ -95,8 +102,13 @@ async function main() {
     process.exit(1)
   }
 
-  const cvText = fs.readFileSync(filePath, 'utf-8')
-  await ingestText(cvText, { type: 'cv', person: 'Don Foley' })
+  const cvText = fs.readFileSync(filePath, 'utf-8') // reading the entire file as astring
+  await ingestText(cvText, { type: 'profile', person: 'Matthew Foley' }) // calls the pipeline on long string
 
   process.exit(0)
 }
+
+main().catch((err) => {
+  console.error('❌ Ingest failed:', err)
+  process.exit(1)
+})

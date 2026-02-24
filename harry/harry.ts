@@ -5,6 +5,7 @@ import { Langfuse } from 'langfuse'
 import { prisma } from '../prismaClient'
 import { createClient } from '@supabase/supabase-js' // JavaScript client for supabase
 import { pipeline } from '@xenova/transformers' // runs ML models locally in JS
+import { sendEmail } from '../tools/resend'
 
 const model = new ChatGoogleGenerativeAI({
   model: 'models/gemini-flash-latest',
@@ -99,29 +100,93 @@ export async function harry(userPrompt: UserPrompt) {
   const prompt: string = `
   You are Harry. Matthew Foley's personal assistant for absolutley anything you're sole purpose is to serve him with anything he needs (he is the only one that has access to you)
   
-  Here is todays chat history with you Harry ${todaysHistory}
+  Here is todays chat history with you Harry ${JSON.stringify(todaysHistory)}
 
   Here is what was pulled from the RAG pipeline from Matthews profile from this prompt ${contextText}
 
 
   current chat from Matthew: ${userPrompt.prompt}
   `
-  const stream = await model.stream(prompt) // .stream returns an Async iterable (meaning we can iterate over the tokens the LLM sends back as they are generated)
+
+  // tool definition
+
+  const tools = [
+    {
+      name: 'send_email',
+      description: 'Send an email on behalf of Matthew like you are Matthew',
+      schema: {
+        type: 'object',
+        properties: {
+          to: { type: 'string', description: 'Recipient email address' },
+          subject: { type: 'string', description: 'Email subject line' },
+          body: { type: 'string', description: 'Email body content' },
+        },
+        required: ['to', 'subject', 'body'],
+      },
+    },
+  ]
+
+  const stream = await model.stream(prompt, { tools }) // .stream returns an Async iterable (meaning we can iterate over the tokens the LLM sends back as they are generated)
 
   let fullResponse: string = '' // string to append the full response to
 
   async function* generator() {
-    // asynchrnous generator function which allows the API route to pull tokens from us
     for await (const chunk of stream) {
-      // for await (loop over the tokens as they generate but also wait for them)
-      const token = chunk.content as string
-      //console.log('CHUNK:', chunk.content)
-      fullResponse += token
-      for (const char of token) {
-        // looping through this because Gemini doesn't return true token streaming it does like sentence level streaming init so I am breaking up these tokens more
-        console.log('Char:', char)
-        //fullResponse += char
-        yield char // sends the character of a token outward to whoever is consuming this generator
+      const anyChunk = chunk as any
+
+      // 🔥 TOOL CALL DETECTED
+      if (anyChunk.tool_calls) {
+        for (const call of anyChunk.tool_calls) {
+          if (call.name === 'send_email') {
+            try {
+              const { to, subject, body } = call.args
+
+              const result = await sendEmail(call.args)
+
+              // 🧠 Now we call Gemini AGAIN
+              const followUpPrompt = `
+You just successfully sent this email:
+
+To: ${to}
+Subject: ${subject}
+Body: ${body}
+
+Email ID: ${result?.id ?? 'Unknown'}
+
+Now confirm to Matthew what was sent in a clear, professional way.
+`
+
+              const followUpStream = await model.stream(followUpPrompt)
+
+              for await (const followChunk of followUpStream) {
+                if (followChunk.content) {
+                  const token = followChunk.content as string
+                  fullResponse += token
+
+                  for (const char of token) {
+                    yield char
+                  }
+                }
+              }
+
+              continue
+            } catch (err) {
+              const errorMsg = `\n\n❌ Failed to send email.`
+              fullResponse += errorMsg
+              yield errorMsg
+            }
+          }
+        }
+      }
+
+      // 🧠 NORMAL RESPONSE (no tool used)
+      if (chunk.content) {
+        const token = chunk.content as string
+
+        for (const char of token) {
+          fullResponse += char
+          yield char
+        }
       }
     }
 

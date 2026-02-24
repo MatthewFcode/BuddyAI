@@ -9,8 +9,8 @@ interface emailInput {
 export async function sendEmail({ to, subject, body }: emailInput) {
   const response = await resend.emails.send({
     // waits for the email to be sent before moving on/ in our case exceuting our return line
-    // resend mehtod that actually sends the email
-    from: 'matthewfoley333@gmail.com',
+    // resend method that actually sends the email
+    from: 'onboarding@resend.dev',
     to,
     subject,
     html: `<p>${body}</p>`, // email body in HTML format (supported)

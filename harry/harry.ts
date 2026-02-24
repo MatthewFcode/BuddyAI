@@ -98,6 +98,7 @@ export async function harry(userPrompt: UserPrompt) {
       : 'No Relevant Info from Matthews profile found'
 
   const prompt: string = `
+  Make your response max 5 words.
   You are Harry. Matthew Foley's personal assistant for absolutley anything you're sole purpose is to serve him with anything he needs (he is the only one that has access to you)
   
   Here is todays chat history with you Harry ${JSON.stringify(todaysHistory)}
@@ -139,27 +140,29 @@ export async function harry(userPrompt: UserPrompt) {
 
             const result = await sendEmail(call.args)
 
-            // 🧠 Now we call Gemini AGAIN
-            const followUpPrompt = `
-          You just successfully sent this email:
+            fullResponse = 'Email sent successfully ✅'
 
-          To: ${to}
-          Subject: ${subject}
-          Body: ${body}
+            //             // 🧠 Now we call Gemini AGAIN
+            //             const followUpPrompt = `
+            //           You just successfully sent this email:
 
-          Email ID: ${result?.id ?? 'Unknown'}
+            //           To: ${to}
+            //           Subject: ${subject}
+            //           Body: ${body}
 
-          Now confirm to Matthew what was sent in a clear, professional way.
-`
+            //           Email ID: ${result?.id ?? 'Unknown'}
 
-            const followUpStream = await model.stream(followUpPrompt)
+            //           Now confirm to Matthew what was sent in a clear, professional way.
+            // `
 
-            for await (const followChunk of followUpStream) {
-              if (followChunk.content) {
-                const token = followChunk.content as string
-                fullResponse += token
-              }
-            }
+            //             const followUpStream = await model.stream(followUpPrompt)
+
+            //             for await (const followChunk of followUpStream) {
+            //               if (followChunk.content) {
+            //                 const token = followChunk.content as string
+            //                 fullResponse += token
+            //               }
+            //             }
             continue
           } catch (err) {
             const errorMsg = `\n\n❌ Failed to send email.`
@@ -252,3 +255,8 @@ export async function harry(userPrompt: UserPrompt) {
 
   return fullResponse // return the generator function for the api route
 }
+
+// NOTES about the current AI function:
+// the generator function is currently commented out and the where we loop over the current stream of ai response and yield it on to the API route
+// Currently we just loop over the incoming tokens from the gemini response and add whatever to full response and then return it as a whole at the end of the stream
+// Sending the email and then returning what was sent into the AI again is currently commented out due to latency issues and simplicity and also token usage for  the eleven labs voice

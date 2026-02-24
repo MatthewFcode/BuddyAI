@@ -8,7 +8,7 @@ const eleven = new ElevenLabsClient({
 
 export async function generateSpeech(text: string) {
   const audio = await eleven.textToSpeech.convert(
-    '2ajXGJNYBR0iNHpS4VZb', //'EXAVITQu4vr4xnSDxMaL', // default male voice (replace later)
+    '7Znc1wuo18yOMS5u9Z5O', //'EXAVITQu4vr4xnSDxMaL', // default male voice (replace later)
     {
       text,
       model_id: 'eleven_multilingual_v2',
@@ -24,13 +24,4 @@ export async function generateSpeech(text: string) {
   const filePath = path.join(process.cwd(), 'public', 'harry.mp3')
   await fs.promises.writeFile(filePath, audio)
   return '/harry.mp3'
-  // const writeStream = fs.createWriteStream(filePath)
-
-  // audio.pipe(writeStream)
-
-  // return new Promise<string>((resolve) => {
-  //   writeStream.on('finish', () => {
-  //     resolve('/harry.mp3')
-  //   })
-  // })
 }

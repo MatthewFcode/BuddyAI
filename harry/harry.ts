@@ -130,74 +130,119 @@ export async function harry(userPrompt: UserPrompt) {
 
   let fullResponse: string = '' // string to append the full response to
 
-  async function* generator() {
-    for await (const chunk of stream) {
-      const anyChunk = chunk as any
+  for await (const chunk of stream) {
+    if (chunk.tool_calls) {
+      for (const call of chunk.tool_calls) {
+        if (call.name === 'send_email') {
+          try {
+            const { to, subject, body } = call.args
 
-      // 🔥 TOOL CALL DETECTED
-      if (anyChunk.tool_calls) {
-        for (const call of anyChunk.tool_calls) {
-          if (call.name === 'send_email') {
-            try {
-              const { to, subject, body } = call.args
+            const result = await sendEmail(call.args)
 
-              const result = await sendEmail(call.args)
+            // 🧠 Now we call Gemini AGAIN
+            const followUpPrompt = `
+          You just successfully sent this email:
 
-              // 🧠 Now we call Gemini AGAIN
-              const followUpPrompt = `
-You just successfully sent this email:
+          To: ${to}
+          Subject: ${subject}
+          Body: ${body}
 
-To: ${to}
-Subject: ${subject}
-Body: ${body}
+          Email ID: ${result?.id ?? 'Unknown'}
 
-Email ID: ${result?.id ?? 'Unknown'}
-
-Now confirm to Matthew what was sent in a clear, professional way.
+          Now confirm to Matthew what was sent in a clear, professional way.
 `
 
-              const followUpStream = await model.stream(followUpPrompt)
+            const followUpStream = await model.stream(followUpPrompt)
 
-              for await (const followChunk of followUpStream) {
-                if (followChunk.content) {
-                  const token = followChunk.content as string
-                  fullResponse += token
-
-                  for (const char of token) {
-                    yield char
-                  }
-                }
+            for await (const followChunk of followUpStream) {
+              if (followChunk.content) {
+                const token = followChunk.content as string
+                fullResponse += token
               }
-
-              continue
-            } catch (err) {
-              const errorMsg = `\n\n❌ Failed to send email.`
-              fullResponse += errorMsg
-              yield errorMsg
             }
+            continue
+          } catch (err) {
+            const errorMsg = `\n\n❌ Failed to send email.`
+            fullResponse += errorMsg
           }
         }
       }
-
-      // 🧠 NORMAL RESPONSE (no tool used)
-      if (chunk.content) {
-        const token = chunk.content as string
-
-        for (const char of token) {
-          fullResponse += char
-          yield char
-        }
+    }
+    if (chunk.content) {
+      const token = chunk.content as string
+      for (const char of token) {
+        fullResponse += char
       }
     }
-
-    // inserting the current user prompt and the chat from the AI into the database
-    await prisma.conversation.create({
-      data: {
-        userPrompt: userPrompt.prompt,
-        aiReply: fullResponse,
-      },
-    })
   }
+
+  //   async function* generator() {
+  //     for await (const chunk of stream) {
+  //       const anyChunk = chunk as any
+
+  //       // 🔥 TOOL CALL DETECTED
+  //       if (anyChunk.tool_calls) {
+  //         for (const call of anyChunk.tool_calls) {
+  //           if (call.name === 'send_email') {
+  //             try {
+  //               const { to, subject, body } = call.args
+
+  //               const result = await sendEmail(call.args)
+
+  //               // 🧠 Now we call Gemini AGAIN
+  //               const followUpPrompt = `
+  // You just successfully sent this email:
+
+  // To: ${to}
+  // Subject: ${subject}
+  // Body: ${body}
+
+  // Email ID: ${result?.id ?? 'Unknown'}
+
+  // Now confirm to Matthew what was sent in a clear, professional way.
+  // `
+
+  //               const followUpStream = await model.stream(followUpPrompt)
+
+  //               for await (const followChunk of followUpStream) {
+  //                 if (followChunk.content) {
+  //                   const token = followChunk.content as string
+  //                   fullResponse += token
+
+  //                   for (const char of token) {
+  //                     yield char
+  //                   }
+  //                 }
+  //               }
+
+  //               continue
+  //             } catch (err) {
+  //               const errorMsg = `\n\n❌ Failed to send email.`
+  //               fullResponse += errorMsg
+
+  //             }
+  //           }
+  //         }
+  //       }
+
+  //       // 🧠 NORMAL RESPONSE (no tool used)
+  //       if (chunk.content) {
+  //         const token = chunk.content as string
+
+  //         for (const char of token) {
+  //           fullResponse += char
+  //           yield char
+  //         }
+  //       }
+  //     }
+
+  // inserting the current user prompt and the chat from the AI into the database
+  await prisma.conversation.create({
+    data: {
+      userPrompt: userPrompt.prompt,
+      aiReply: fullResponse,
+    },
+  })
 
   //updating the current langfuse trace with the output from the user
   trace.update({
@@ -205,5 +250,5 @@ Now confirm to Matthew what was sent in a clear, professional way.
     output: fullResponse,
   })
 
-  return generator() // return the generator function for the api route
+  return fullResponse // return the generator function for the api route
 }

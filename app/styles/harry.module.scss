@@ -601,6 +601,7 @@
 //   }
 // }
 
+// SPLIT HERE NENENWNFWNKN
 
 // ── Keyframes ──────────────────────────────────────────────────────────────────
 
@@ -1044,17 +1045,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  //transition: background 0.2s;
+  transition: transform 0.1s ease;
 
   img {
     width: 26px;
     height: 26px;
-    opacity: 0.55;
+   
     transition: opacity 0.2s;
   }
 
   &:hover img {
-    opacity: 1;
+    transform: scale(1.09)
   }
 
   // Active / transcribing state
@@ -1274,3 +1276,5 @@
     }
   }
 }
+
+

@@ -17,7 +17,7 @@ const embedPipeline = await pipeline(
 )
 
 // helper function for breaking up text
-function chunkText(text, chunkSize = 50, overlap = 10) {
+function chunkText(text, chunkSize = 100, overlap = 20) {
   const words = text.split(' ')
   const chunks = []
   let i = 0
@@ -52,9 +52,18 @@ async function getEmbeddings(texts) {
   return vectors
 }
 
+// cleaner function
+function cleanText(text) {
+  return text
+    .replace(/\*\*/g, '') // remove bold markers
+    .replace(/[\r\n]+/g, ' ') // replace newlines with space
+    .replace(/\s+/g, ' ') // collapse multiple spaces
+    .trim()
+}
+
 //orchestration function
 async function ingestText(text, baseMetadata = {}) {
-  const chunks = chunkText(text) // running the chunking function over the text
+  const chunks = chunkText(cleanText(text)) // running the chunking function over the text
 
   console.log(`🔹 Chunked into ${chunks.length} pieces`) // gonna be an array of embedding objects
 

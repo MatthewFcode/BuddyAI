@@ -125,22 +125,12 @@ function Harry() {
   const [messageVisible, setMessageVisible] = useState(false)
   // state for the listening (mic)
   const [isListening, setIsListening] = useState(false)
+  // speaking state for the ai
+  const [isSpeaking, setIsSpeaking] = useState(false)
 
   const lottieRef = useRef<LottieRefCurrentProps | null>(null)
   const replyTextRef = useRef<HTMLDivElement | null>(null)
   const recognitionRef = useRef<any>(null)
-
-  const speak = (text: string) => {
-    if (typeof window === 'undefined') return
-
-    const utterance = new SpeechSynthesisUtterance(text)
-    utterance.rate = 1
-    utterance.pitch = 1
-    utterance.lang = 'en-US'
-
-    window.speechSynthesis.cancel()
-    window.speechSynthesis.speak(utterance)
-  }
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -167,13 +157,6 @@ function Harry() {
 
     recognitionRef.current = recognition
   }, [])
-
-  // use effect for the reply
-  useEffect(() => {
-    if (!isLoading && reply) {
-      speak(reply)
-    }
-  }, [isLoading])
 
   // handler function for toggle of is listening
   const toggleListening = () => {
@@ -207,6 +190,8 @@ function Harry() {
 
     setIsLoading(true)
     setReply('')
+    lottieRef.current?.setSpeed(2.5) // ← add this
+    lottieRef.current?.play() // ← add this
 
     const res = await fetch('/api/chat', {
       method: 'POST',
@@ -214,21 +199,46 @@ function Harry() {
       body: JSON.stringify({ prompt }),
     })
 
-    const reader = res.body?.getReader()
-    const decoder = new TextDecoder()
+    const data = await res.json()
+    // if (!data.audio) {
+    //   const utterance = new SpeechSynthesisUtterance(data.text)
+    //   window.speechSynthesis.speak(utterance)
+    // }
 
-    let done = false
+    setReply(data.text)
+    setIsLoading(false)
+    lottieRef.current?.setSpeed(1)
 
-    while (!done) {
-      const { value, done: doneReading } = await reader!.read()
-      done = doneReading
+    // Play ElevenLabs audio
+    const audio = new Audio(data.audio)
 
-      const chunkValue = decoder.decode(value)
-      setReply((prev) => prev + chunkValue)
-      await new Promise((r) => setTimeout(r, 5))
+    audio.onplay = () => {
+      setIsSpeaking(true)
+      lottieRef.current?.play()
     }
 
-    setIsLoading(false)
+    audio.onended = () => {
+      setIsSpeaking(false)
+      lottieRef.current?.stop()
+    }
+
+    audio.play()
+
+    // const reader = res.body?.getReader()
+    // const decoder = new TextDecoder()
+
+    // let done = false
+
+    // while (!done) {
+    //   const { value, done: doneReading } = await reader!.read()
+    //   done = doneReading
+
+    //   const chunkValue = decoder.decode(value)
+    //   setReply((prev) => prev + chunkValue)
+    //   await new Promise((r) => setTimeout(r, 5))
+    // }
+
+    // setIsLoading(false)
   }
 
   useEffect(() => {
@@ -245,16 +255,16 @@ function Harry() {
   }, [])
 
   // Pause animation when idle, play + speed up when loading
-  useEffect(() => {
-    if (!lottieRef.current) return
-    if (isLoading) {
-      lottieRef.current.setSpeed(2.5)
-      lottieRef.current.play()
-    } else {
-      lottieRef.current.setSpeed(1)
-      lottieRef.current.stop() // stationary when no query running
-    }
-  }, [isLoading])
+  // useEffect(() => {
+  //   if (!lottieRef.current) return
+  //   if (isLoading) {
+  //     lottieRef.current.setSpeed(2.5)
+  //     lottieRef.current.play()
+  //   } else {
+  //     lottieRef.current.setSpeed(1)
+  //     lottieRef.current.stop() // stationary when no query running
+  //   }
+  // }, [isLoading])
 
   return (
     <div className={styles.page}>
@@ -277,7 +287,7 @@ function Harry() {
           <div
             className={`${styles.animationWrapper} ${
               isLoading ? styles.loading : ''
-            } ${isLoading && reply ? styles.speaking : ''}`}
+            } ${isSpeaking ? styles.speaking : ''}`}
           >
             <div className={styles.animationGlow} />
             <Lottie

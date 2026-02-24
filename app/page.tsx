@@ -123,9 +123,70 @@ function Harry() {
   const [dashboardMessage, setDashboardMessage] = useState('')
   // ai state? that could be removed
   const [messageVisible, setMessageVisible] = useState(false)
+  // state for the listening (mic)
+  const [isListening, setIsListening] = useState(false)
 
   const lottieRef = useRef<LottieRefCurrentProps | null>(null)
   const replyTextRef = useRef<HTMLDivElement | null>(null)
+  const recognitionRef = useRef<any>(null)
+
+  const speak = (text: string) => {
+    if (typeof window === 'undefined') return
+
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.rate = 1
+    utterance.pitch = 1
+    utterance.lang = 'en-US'
+
+    window.speechSynthesis.cancel()
+    window.speechSynthesis.speak(utterance)
+  }
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition
+
+    if (!SpeechRecognition) return
+
+    const recognition = new SpeechRecognition()
+    recognition.continuous = false
+    recognition.interimResults = false
+    recognition.lang = 'en-US'
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript
+      setPrompt(transcript)
+    }
+
+    recognition.onend = () => {
+      setIsListening(false)
+    }
+
+    recognitionRef.current = recognition
+  }, [])
+
+  // use effect for the reply
+  useEffect(() => {
+    if (!isLoading && reply) {
+      speak(reply)
+    }
+  }, [isLoading])
+
+  // handler function for toggle of is listening
+  const toggleListening = () => {
+    if (!recognitionRef.current) return
+
+    if (isListening) {
+      recognitionRef.current.stop()
+      setIsListening(false)
+    } else {
+      recognitionRef.current.start()
+      setIsListening(true)
+    }
+  }
 
   //handler function for copying text from ai response
   const copyText = async () => {
@@ -216,7 +277,7 @@ function Harry() {
           <div
             className={`${styles.animationWrapper} ${
               isLoading ? styles.loading : ''
-            }`}
+            } ${isLoading && reply ? styles.speaking : ''}`}
           >
             <div className={styles.animationGlow} />
             <Lottie
@@ -279,7 +340,29 @@ function Harry() {
                 disabled={isLoading}
                 className={styles.input}
               />
+              <button
+                type="button"
+                onClick={toggleListening}
+                className={`${styles.micButton} ${
+                  isListening ? styles.micActive : ''
+                }`}
+              >
+                <img src="/images/sound-recognition.png" alt="microphone" />
+              </button>
             </div>
+            {/* <div className={styles.inputWrapper}>
+              <input
+                type="text"
+                placeholder="ask Harry anything..."
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                disabled={isLoading}
+                className={styles.input}
+              />
+              <button type="button" onClick={toggleListening}>
+                <img src="/images/sound-recognition.png" alt="microphone" />
+              </button>
+            </div> */}
             {/* <button
               type="submit"
               disabled={isLoading || !prompt.trim()}

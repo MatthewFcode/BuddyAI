@@ -124,7 +124,7 @@ function Harry() {
     lottieRef.current?.setSpeed(1)
 
     // Play ElevenLabs audio
-    const audio = new Audio(data.audio)
+    const audio = new Audio(data.audio) // creates the audio and plays it | the states are for the animations
 
     audio.onplay = () => {
       setIsSpeaking(true)

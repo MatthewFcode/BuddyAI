@@ -11,10 +11,10 @@ export async function POST(request: Request) {
   // notee to self the harry function now returns a full body string no instead of the genertor which yields the char
   const fullResponse = await harry(body) // call the harry function on our body object | this now returns the generator which sends us the tokens as they are generated
 
-  // runs the
+  // runs the elevenLaps function that saves the TTS as an MP3 to our public
   const audio = await generateSpeech(fullResponse)
 
-  return NextResponse.json({ text: fullResponse, audio: audio })
+  return NextResponse.json({ text: fullResponse, audio: audio }) // audio is gonna be /harry.mp3
   // const encoder = new TextEncoder() // converts string to binary chunks
 
   // const readableStream = new ReadableStream({

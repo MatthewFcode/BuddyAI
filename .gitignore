@@ -44,3 +44,6 @@ next-env.d.ts
 
 # encryption functions
 /encryption
+
+# RAG data 
+/rag/data

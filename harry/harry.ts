@@ -98,7 +98,7 @@ export async function harry(userPrompt: UserPrompt) {
       : 'No Relevant Info from Matthews profile found'
 
   const prompt: string = `
-  Make your response max 5 words.
+  Make your response max 50 words.
   You are Harry. Matthew Foley's personal assistant for absolutley anything you're sole purpose is to serve him with anything he needs (he is the only one that has access to you)
   
   Here is todays chat history with you Harry ${JSON.stringify(todaysHistory)}

@@ -121,22 +121,22 @@ function Harry() {
 
     setReply(data.text)
     setIsLoading(false)
-    lottieRef.current?.setSpeed(1)
+    // lottieRef.current?.setSpeed(1)
 
-    // Play ElevenLabs audio
-    const audio = new Audio(data.audio) // creates the audio and plays it | the states are for the animations
+    // // Play ElevenLabs audio
+    // const audio = new Audio(data.audio) // creates the audio and plays it | the states are for the animations
 
-    audio.onplay = () => {
-      setIsSpeaking(true)
-      lottieRef.current?.play()
-    }
+    // audio.onplay = () => {
+    //   setIsSpeaking(true)
+    //   lottieRef.current?.play()
+    // }
 
-    audio.onended = () => {
-      setIsSpeaking(false)
-      lottieRef.current?.stop()
-    }
+    // audio.onended = () => {
+    //   setIsSpeaking(false)
+    //   lottieRef.current?.stop()
+    // }
 
-    audio.play()
+    // audio.play()
 
     // const reader = res.body?.getReader()
     // const decoder = new TextDecoder()

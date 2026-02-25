@@ -220,21 +220,21 @@ export async function harry(userPrompt: UserPrompt) {
         }
       }
     }
+    // inserting the current user prompt and the chat from the AI into the database
+    await prisma.conversation.create({
+      // moved inside the function as the streaming happens after we return rather than before
+      data: {
+        userPrompt: userPrompt.prompt,
+        aiReply: fullResponse,
+      },
+    })
+
+    //updating the current langfuse trace with the output from the user
+    trace.update({
+      name: 'Harry',
+      output: fullResponse,
+    })
   }
-
-  // inserting the current user prompt and the chat from the AI into the database
-  await prisma.conversation.create({
-    data: {
-      userPrompt: userPrompt.prompt,
-      aiReply: fullResponse,
-    },
-  })
-
-  //updating the current langfuse trace with the output from the user
-  trace.update({
-    name: 'Harry',
-    output: fullResponse,
-  })
 
   return generator() // return the generator function for the api route
 }

@@ -9,34 +9,34 @@ import { generateSpeech } from '../../../voice/elevenLabs'
 export async function POST(request: Request) {
   const body = await request.json()
   // notee to self the harry function now returns a full body string no instead of the genertor which yields the char
-  const fullResponse = await harry(body) // call the harry function on our body object | this now returns the generator which sends us the tokens as they are generated
+  const harryStream = await harry(body) // call the harry function on our body object | this now returns the generator which sends us the tokens as they are generated
 
   // runs the elevenLaps function that saves the TTS as an MP3 to our public
-  //const audio = await generateSpeech(fullResponse)
-  //audio: audio
-  return NextResponse.json({ text: fullResponse }) // audio is gonna be /harry.mp3
-  // const encoder = new TextEncoder() // converts string to binary chunks
+  // const audio = await generateSpeech(fullResponse)
 
-  // const readableStream = new ReadableStream({
-  //   // creates stream to front end
-  //   async start(controller) {
-  //     // start starts the stream as soon as the stream from the generator begins
-  //     for await (const chunk of harryStream) {
-  //       // looping over the token yielded from harry
-  //       controller.enqueue(encoder.encode(chunk)) // convert the string to binary
-  //     }
-  //     controller.close() // closing the stream when finished
-  //   },
-  // })
+  //return NextResponse.json({ text: fullResponse, audio: audio }) // audio is gonna be /harry.mp3
+  const encoder = new TextEncoder() // converts string to binary chunks
 
-  // return new Response(readableStream, {
-  //   // returns the stream response for the front end
-  //   headers: {
-  //     'Content-Type': 'text/plain; charset=utf-8',
-  //     //'Transfer-Encoding': 'chunked',
-  //     'Cache-Control': 'no-cache',
-  //   },
-  // }) // basicall returns the response from Harry to the client (without  streaming yet and without the need for a get request from the client)
+  const readableStream = new ReadableStream({
+    // creates stream to front end
+    async start(controller) {
+      // start starts the stream as soon as the stream from the generator begins
+      for await (const chunk of harryStream) {
+        // looping over the token yielded from harry
+        controller.enqueue(encoder.encode(chunk)) // convert the string to binary
+      }
+      controller.close() // closing the stream when finished
+    },
+  })
+
+  return new Response(readableStream, {
+    // returns the stream response for the front end
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      //'Transfer-Encoding': 'chunked',
+      'Cache-Control': 'no-cache',
+    },
+  })
 }
 
 // GET route for all chats

@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Buddy AI Overview 
 
-## Getting Started
+Buddy AI Harry is a fullstack AI application that I am building to improve fluency and practical skill in designing AI software.  
 
-First, run the development server:
+I am aiming to understand how all layers of a production style AI systems fit together: frontend interaction, backend orchestration, database management, retrieval pipelines, streaming, voice capabilities, and tool execution.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Architecture Overview
+### Frontend (Next.js)
 
-## Learn More
+The frontend is built with Next.js and is responsible for:
 
-To learn more about Next.js, take a look at the following resources:
+- Rendering the user interface
+- Managing client-side interaction
+- Handling streaming responses
+- Decoding binary chunks into readable text
+- Supporting Text-to-Speech and Speech-to-Text functionality
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The frontend communicates with backend API routes over HTTP and handles real-time response updates through streamed binary data.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Backend (Next.js Serverless API Routes)
 
-## Deploy on Vercel
+The backend uses Next.js serverless API functions as the communication layer to the AI functions.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Responsibilities include:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Receiving the user input
+- Calling the AI function
+- Performing retrieval operations
+- Executing tools
+- Communicating with the database via Prisma
+- Streaming responses back to the client
+
+### Database and ORM
+
+Prisma is used as the ORM to manage structured data.
+
+The backend communicates with Prisma over HTTP to perform database operations.
+
+For vector storage:
+
+- Supabase is used as the vector database.
+
+## Retrieval-Augmented Generation (RAG)
+
+The AI system is grounded in personal context through retrieval.
+
+The RAG pipeline works as follows:
+
+1. Source material is chunked into smaller segments.
+2. A local Hugging Face model generates embeddings for each chunk.
+3. Embeddings are stored in Supabase.
+4. Semantic search retrieves the most relevant chunks at query time.
+5. Retrieved context is injected into the model prompt.
+6. The model generates a response grounded in that retrieved data.
+
+This ensures responses are aligned with the personal knowledge I choose to embed into the vector store.
+
+## Tooling and External Integrations
+
+The AI is extended with tooling capabilities. It can:
+
+- Send emails via third-party APIs
+- Send messages via third-party APIs
+- Search the web using the Model Context Protocol
+
+
+### The next steps for this project are:
+
+- Expanding tool usage to increase system capability
+- Implementing WebSockets to improve streaming efficiency
+- Refining the RAG pipeline for better retrieval quality and more efficient token usage
+- Implementing custom auth in order to keep API routes protected and prevent external use of the application.

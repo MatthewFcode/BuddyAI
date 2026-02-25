@@ -10,5 +10,5 @@ export interface Conversation {
   id: number
   userPrompt: string
   aiReply: string
-  chatTime: string
+  chatTime: Date
 }

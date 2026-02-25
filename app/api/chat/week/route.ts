@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   start.setDate(start.getDate() - day) // go to start of week
   start.setHours(0, 0, 0, 0)
 
-  const weeksHistory: Conversation = prisma.conversation.findMany({
+  const weeksHistory: Conversation[] = await prisma.conversation.findMany({
     where: { chatTime: { gte: start } },
     orderBy: { chatTime: 'desc' },
   })

@@ -98,30 +98,66 @@ function Harry() {
     setTimeout(() => setIsCopied(false), 10000) // set timeout for 10 seconds
   }
 
+  const speak = (text: string) => {
+    if (typeof window === 'undefined') return
+
+    const synth = window.speechSynthesis
+    synth.cancel()
+
+    const voices = synth.getVoices()
+
+    // Try to select a masculine voice
+    const maleVoice =
+      voices.find((v) => v.name.toLowerCase().includes('daniel')) || // UK male
+      voices.find((v) => v.name.toLowerCase().includes('alex')) || // macOS male
+      voices.find((v) =>
+        v.name.toLowerCase().includes('google uk english male')
+      ) ||
+      voices.find((v) => v.name.toLowerCase().includes('male')) ||
+      voices.find((v) => v.lang === 'en-GB') ||
+      voices.find((v) => v.lang === 'en-US')
+
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.onstart = () => setIsSpeaking(true)
+    utterance.onend = () => setIsSpeaking(false)
+    utterance.onerror = () => setIsSpeaking(false)
+
+    if (maleVoice) {
+      utterance.voice = maleVoice
+    }
+
+    // Masculine tuning
+    utterance.rate = 0.92
+    utterance.pitch = 0.85
+    utterance.lang = 'en-GB' // slightly more refined tone than en-US
+
+    synth.speak(utterance)
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!prompt.trim()) return
+    if (!prompt.trim()) return // is the user submits an empty text then we return immediatley
 
-    setIsLoading(true)
-    setReply('')
-    lottieRef.current?.setSpeed(2.5) // ← add this
-    lottieRef.current?.play() // ← add this
+    window.speechSynthesis.cancel() // stop any speech currently playing on a submit
+
+    setIsLoading(true) // triggers the animations
+    setReply('') // clears the reply box from previous responses
+    lottieRef.current?.setSpeed(2.5) // speeds up the aniamtion for the thinking state
+    lottieRef.current?.play() // plays animation
 
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt }),
+      body: JSON.stringify({ prompt }), // posts the prompt to the API route which returns a stream
     })
 
-    const data = await res.json()
+    //  const data = await res.json()
     // if (!data.audio) {
     //   const utterance = new SpeechSynthesisUtterance(data.text)
     //   window.speechSynthesis.speak(utterance)
     // }
 
-    setReply(data.text)
-    setIsLoading(false)
-    // lottieRef.current?.setSpeed(1)
+    // setReply(data.text)
 
     // // Play ElevenLabs audio
     // const audio = new Audio(data.audio) // creates the audio and plays it | the states are for the animations
@@ -138,21 +174,27 @@ function Harry() {
 
     // audio.play()
 
-    // const reader = res.body?.getReader()
-    // const decoder = new TextDecoder()
+    const reader = res.body?.getReader() // readable stream | getReader() lets us manually read chunks from a stream
+    const decoder = new TextDecoder() // turns the binary chunks back into readable strings
 
-    // let done = false
+    let done = false // tells us when the stream ends
+    let fullResponse = '' // variable to append the full response after the stream is done to
 
-    // while (!done) {
-    //   const { value, done: doneReading } = await reader!.read()
-    //   done = doneReading
-
-    //   const chunkValue = decoder.decode(value)
-    //   setReply((prev) => prev + chunkValue)
-    //   await new Promise((r) => setTimeout(r, 5))
-    // }
-
-    // setIsLoading(false)
+    while (!done) {
+      // loop until the stream is finished
+      const { value, done: doneReading } = await reader!.read() // value is the next chunk of the text
+      done = doneReading
+      if (value) {
+        // if the next chunk is real
+        const chunk = decoder.decode(value) // turn into readable string
+        fullResponse += chunk // append it to full response
+        setReply((prev) => prev + chunk) // updates the react state in real time chunk by chunk
+        await new Promise((r) => setTimeout(r, 5)) // tiny delay in this process to smoothen rendering
+      }
+    }
+    setIsLoading(false) // turn off the animation
+    lottieRef.current?.setSpeed(1)
+    speak(fullResponse) // broswer TTS function is called
   }
 
   useEffect(() => {

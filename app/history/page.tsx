@@ -56,7 +56,7 @@ function History() {
 
       {/* Sidebar */}
       <aside className={styles.sidebar}>
-        <Link href="/" className={styles.homeLink}>
+        <Link href="/harry" className={styles.homeLink}>
           Back to Harry
         </Link>
 

@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   const passwordTwo = encryptionTwo(body.password2)
 
   if (
-    passwordOne === process.env.ENCRYPTION_ONE_KEY &&
+    passwordOne === 'ÂÔ-Ï5+ª' &&
     passwordTwo === process.env.ENCRYPTION_TWO_KEY
   ) {
     return NextResponse.json({ status: 'correct' })

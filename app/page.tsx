@@ -10,6 +10,43 @@ export function Auth() {
   const [passwordOneState, setpasswordOneState] = useState('')
   const [passwordTwoState, setpasswordTwoState] = useState('')
 
+  // speech helper
+  const speak = (text: string) => {
+    if (typeof window === 'undefined') return
+
+    const synth = window.speechSynthesis
+    synth.cancel()
+
+    const voices = synth.getVoices()
+
+    // Try to select a masculine voice
+    const maleVoice =
+      voices.find((v) => v.name.toLowerCase().includes('daniel')) || // UK male
+      voices.find((v) => v.name.toLowerCase().includes('alex')) || // macOS male
+      voices.find((v) =>
+        v.name.toLowerCase().includes('google uk english male')
+      ) ||
+      voices.find((v) => v.name.toLowerCase().includes('male')) ||
+      voices.find((v) => v.lang === 'en-GB') ||
+      voices.find((v) => v.lang === 'en-US')
+
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.onstart = () => setIsSpeaking(true)
+    utterance.onend = () => setIsSpeaking(false)
+    utterance.onerror = () => setIsSpeaking(false)
+
+    if (maleVoice) {
+      utterance.voice = maleVoice
+    }
+
+    // Masculine tuning
+    utterance.rate = 0.92
+    utterance.pitch = 0.85
+    utterance.lang = 'en-GB' // slightly more refined tone than en-US
+
+    synth.speak(utterance)
+  }
+
   const navigate = useRouter()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -28,7 +65,12 @@ export function Auth() {
     const data = await res.json()
 
     if (data.status === 'correct') {
+      speak('Glad to have you back Matthew')
       navigate.push('/harry')
+    }
+
+    if (data.status === 'incorrect') {
+      speak('Wrong Passwords')
     }
   }
 
@@ -38,6 +80,7 @@ export function Auth() {
         <div>
           <Lottie animationData={harryAnimation} autoplay={false} loop />ß
         </div>
+        <h1>Buddy AI - Harry</h1>
         <input
           type="text"
           placeholder="..password 1"

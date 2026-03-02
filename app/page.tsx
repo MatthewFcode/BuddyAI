@@ -6,12 +6,13 @@ import { useRouter } from 'next/navigation'
 import Lottie, { LottieRefCurrentProps } from 'lottie-react'
 import harryAnimation from '../src/animations/ai animation Flow 1.json'
 
-export function Auth() {
+function Auth() {
   const [passwordOneState, setpasswordOneState] = useState('')
   const [passwordTwoState, setpasswordTwoState] = useState('')
 
+  const [isSpeaking, setIsSpeaking] = useState(false)
   // speech helper
-  const speak = (text: string) => {
+  const speak = (text: string, onEnd?: () => void) => {
     if (typeof window === 'undefined') return
 
     const synth = window.speechSynthesis
@@ -32,7 +33,10 @@ export function Auth() {
 
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.onstart = () => setIsSpeaking(true)
-    utterance.onend = () => setIsSpeaking(false)
+    utterance.onend = () => {
+      setIsSpeaking(false)
+      if (onEnd) onEnd()
+    }
     utterance.onerror = () => setIsSpeaking(false)
 
     if (maleVoice) {
@@ -65,8 +69,9 @@ export function Auth() {
     const data = await res.json()
 
     if (data.status === 'correct') {
-      speak('Glad to have you back Matthew')
-      navigate.push('/harry')
+      speak('Glad to have you back Matthew', () => {
+        navigate.push('/harry')
+      })
     }
 
     if (data.status === 'incorrect') {
@@ -78,22 +83,33 @@ export function Auth() {
     <>
       <div>
         <div>
-          <Lottie animationData={harryAnimation} autoplay={false} loop />ß
+          <Lottie animationData={harryAnimation} autoplay={false} loop />
         </div>
-        <h1>Buddy AI - Harry</h1>
-        <input
-          type="text"
-          placeholder="..password 1"
-          onChange={(e) => setpasswordOneState(e.target.value)}
-        />
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="..password 2"
-          onChange={(e) => setpasswordTwoState(e.target.value)}
-        />
+        <div>
+          <h1>Buddy AI - Harry</h1>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <input
+              type="text"
+              placeholder="..password 1"
+              onChange={(e) => setpasswordOneState(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              placeholder="..password 2"
+              onChange={(e) => setpasswordTwoState(e.target.value)}
+            />
+          </div>
+          <div>
+            <button type="submit">Log In</button>
+          </div>
+        </form>
       </div>
     </>
   )
 }
+
+export default Auth

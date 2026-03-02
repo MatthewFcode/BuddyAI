@@ -11,8 +11,14 @@ export async function POST(request: Request) {
   const passwordOne = encryptionOne(body.password1)
   const passwordTwo = encryptionTwo(body.password2)
 
+  console.log('Raw input:', body)
+  console.log('Encrypted 1:', passwordOne)
+  console.log('Encrypted 2:', passwordTwo)
+  console.log('ENV 1:', process.env.ENCRYPTION_ONE_KEY)
+  console.log('ENV 2:', process.env.ENCRYPTION_TWO_KEY)
+
   if (
-    passwordOne === 'ÂÔ-Ï5+ª' &&
+    passwordOne === process.env.ENCRYPTION_ONE_KEY &&
     passwordTwo === process.env.ENCRYPTION_TWO_KEY
   ) {
     return NextResponse.json({ status: 'correct' })

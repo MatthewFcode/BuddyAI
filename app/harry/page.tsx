@@ -6,7 +6,7 @@ import { AIReply } from '../../models/interface'
 import Lottie, { LottieRefCurrentProps } from 'lottie-react'
 //import harryAnimation from '../src/animations/AI logo Foriday.json'
 import harryAnimation from '../../src/animations/ai animation Flow 1.json'
-import styles from './styles/harry.module.scss'
+import styles from '../styles/harry.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 

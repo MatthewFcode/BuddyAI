@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Lottie, { LottieRefCurrentProps } from 'lottie-react'
 import harryAnimation from '../src/animations/ai animation Flow 1.json'
-
+import backgroundAnimation from '../src/animations/Background 3d stroke.json'
 function Auth() {
   const [passwordOneState, setpasswordOneState] = useState('')
   const [passwordTwoState, setpasswordTwoState] = useState('')
@@ -81,6 +81,7 @@ function Auth() {
 
   return (
     <>
+      <Lottie animationData={backgroundAnimation} autoplay={true} loop />
       <div>
         <div>
           <Lottie animationData={harryAnimation} autoplay={false} loop />

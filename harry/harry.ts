@@ -130,7 +130,7 @@ export async function harry(userPrompt: UserPrompt) {
 
   // manual tool caling
   const stream = await model.stream(prompt, { tools }) // .stream returns an Async iterable (meaning we can iterate over the tokens the LLM sends back as they are generated)
-  //mhm
+
   let fullResponse: string = '' // string to append the full response to
 
   // SOLUTION FOR SENDING THE FULL RESPONSE AS A WHOLE AND NOT STREAMING THE RESPONSE

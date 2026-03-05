@@ -9,10 +9,10 @@ export const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 )
-
+// okay so this is a local embeddings model lol meaning we arent calling a third party API to run our
 const embedPipeline = await pipeline(
   'feature-extraction', // tells our transformers we want embeddings not text generation
-  'Xenova/all-MiniLM-L6-v2', // hugging face model | produces 384 dimensional embeddings
+  'Xenova/all-MiniLM-L6-v2', // hugging face model | produces 384 dimensional embeddings. The more numbers in the embeddings the semantic search gets better
   { quantized: true }
 )
 
@@ -35,8 +35,8 @@ async function getEmbeddings(texts) {
 
   for (const t of texts) {
     const output = await embedPipeline(t, {
-      pooling: 'mean',
-      normalize: true,
+      pooling: 'mean', // pooling we are taking all the tokens for our embedding and averaging them to create and average embedding
+      normalize: true, //
     })
 
     // Xenova returns a Float32Array in `data`

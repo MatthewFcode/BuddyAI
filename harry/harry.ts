@@ -18,7 +18,7 @@ const langfuse = new Langfuse({
   publicKey: process.env.LANGFUSE_PUBLIC_KEY,
   secretKey: process.env.LANGFUSE_SECRET_KEY,
   baseUrl: process.env.LANGFUSE_BASE_URL,
-})
+}) // creating the langfuse client to log observability
 
 //FOR RAG: used for accessing to the database and vector search
 const supabase = createClient(
@@ -32,7 +32,7 @@ const embedPipeline = await pipeline(
   'feature-extraction',
   'Xenova/all-MiniLM-L6-v2',
   { quantized: true }
-)
+) // local embeddings model
 
 //FOR RAG || helper function for converting text into a vector array
 async function embedQuery(text: string): Promise<number[]> {
@@ -52,7 +52,7 @@ async function retrieveContext(query: string) {
     // calls the supabase client
     // supabase Postgres function that compares all the vectors and returns the 5 most similar chunks
     query_embedding: embedding, // magic
-    match_count: 5, // returns the top 5 chunks
+    match_count: 5, // returns the top 5 chunks to the query embedding above
   })
 
   if (error) {
@@ -128,7 +128,7 @@ export async function harry(userPrompt: UserPrompt) {
     },
   ]
 
-  // manual tool caling
+  // manual tool caling meaning that the AI is passed a sturctured set of tools to call when the prompt requires them
   const stream = await model.stream(prompt, { tools }) // .stream returns an Async iterable (meaning we can iterate over the tokens the LLM sends back as they are generated)
 
   let fullResponse: string = '' // string to append the full response to
@@ -172,7 +172,7 @@ export async function harry(userPrompt: UserPrompt) {
             try {
               const { to, subject, body } = call.args
 
-              const result = await sendEmail(call.args)
+              const result = await sendEmail(call.args) // 3rd party API function to handle sending the email
 
               fullResponse = 'Email sent successfully ✅'
 

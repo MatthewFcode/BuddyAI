@@ -31,6 +31,8 @@ export async function POST(request: Request) {
       sameSite: 'strict', // only sent to our site
       maxAge: 60 * 60 * 8, // 8 hours in seconds (how long the cookie lives )
     })
+
+    return response
   } else {
     return NextResponse.json({ status: 'incorrect' })
   }

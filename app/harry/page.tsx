@@ -9,7 +9,8 @@ import harryAnimation from '../../src/animations/ai animation Flow 1.json'
 import styles from '../styles/harry.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
-
+import backgroundAnimation from '../../src/animations/Animation - 1706525503750 (1).json'
+//import backgroundAnimation from '../../src/animations/Background 3d stroke.json'
 // ── Nav Component ──────────────────────────────────────────────────────────────
 export function Nav() {
   return (
@@ -225,6 +226,9 @@ function Harry() {
   return (
     <div className={styles.page}>
       {/* ── Background atmosphere ── */}
+      <div className={styles.bgLottie}>
+        <Lottie animationData={backgroundAnimation} autoplay loop />
+      </div>
       <div className={styles.bgLayer}>
         <div className={styles.bgGlowCenter} />
         <div className={styles.bgGlowTop} />

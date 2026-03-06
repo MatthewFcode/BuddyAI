@@ -82,6 +82,7 @@ export default function Auth() {
       if (data.status === 'correct') {
         setFeedback('success')
         setFeedbackMsg('Identity confirmed.')
+
         speak('Glad to have you back Matthew', () => {
           router.push('/harry')
         })

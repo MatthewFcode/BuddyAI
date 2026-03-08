@@ -10,6 +10,7 @@ import styles from '../styles/harry.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import backgroundAnimation from '../../src/animations/Animation - 1706525503750 (1).json'
+import { useRouter } from 'next/router'
 //import backgroundAnimation from '../../src/animations/Background 3d stroke.json'
 // ── Nav Component ──────────────────────────────────────────────────────────────
 export function Nav() {
@@ -46,6 +47,8 @@ function Harry() {
   const lottieRef = useRef<LottieRefCurrentProps | null>(null)
   const replyTextRef = useRef<HTMLDivElement | null>(null)
   const recognitionRef = useRef<any>(null)
+
+  const router = useRouter()
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -222,6 +225,13 @@ function Harry() {
   //     lottieRef.current.stop() // stationary when no query running
   //   }
   // }, [isLoading])
+
+  const handleLogout = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    await fetch('/api/auth/logout', { method: 'POST' })
+    router.push('/')
+  }
 
   return (
     <div className={styles.page}>

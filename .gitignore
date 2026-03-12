@@ -42,9 +42,6 @@ next-env.d.ts
 
 /app/generated/prisma
 
-# encryption functions
-/encryption
-
 # RAG data 
 
 /rag/data

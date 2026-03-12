@@ -14,24 +14,21 @@ import { useRouter } from 'next/navigation'
 //import backgroundAnimation from '../../src/animations/Background 3d stroke.json'
 // ── Nav Component ──────────────────────────────────────────────────────────────
 // next js router
-
 export function Nav() {
-  // nextjs router
   const router = useRouter()
 
   const handleLogout = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-
     await fetch('/api/auth/logout', { method: 'POST' })
-
     router.push('/')
   }
+
   return (
     <nav className={styles.nav}>
       <Link href="/history" className={styles.navHistory}>
         History
       </Link>
-      <button onClick={handleLogout} className={styles.navHistory}>
+      <button onClick={handleLogout} className={styles.navLogout}>
         Logout
       </button>
       <h1 className={styles.navTitle}>

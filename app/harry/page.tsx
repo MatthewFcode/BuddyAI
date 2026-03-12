@@ -25,16 +25,20 @@ export function Nav() {
 
   return (
     <nav className={styles.nav}>
-      <Link href="/history" className={styles.navHistory}>
-        History
-      </Link>
-      <button onClick={handleLogout} className={styles.navLogout}>
-        Logout
-      </button>
+      <div className={styles.navLeft}>
+        <Link href="/history" className={styles.navHistory}>
+          History
+        </Link>
+        <button onClick={handleLogout} className={styles.navLogout}>
+          Logout
+        </button>
+      </div>
       <h1 className={styles.navTitle}>
         <strong>Harry</strong>
       </h1>
-      <span className={styles.navBuddy}>BuddyAI</span>
+      <div className={styles.navRight}>
+        <span className={styles.navBuddy}>BuddyAI</span>
+      </div>
     </nav>
   )
 }

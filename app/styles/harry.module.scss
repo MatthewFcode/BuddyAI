@@ -127,6 +127,20 @@
   padding: 22px 44px;
 }
 
+.navLeft {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navRight {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .navHistory {
   color: rgba(255, 255, 255, 0.9);
   font-size: 0.8rem;
@@ -564,7 +578,7 @@
     letter-spacing: 0.35em;
   }
 
-  .navHistory {
+  .navHistory, .navLogout {
     font-size: 0.62rem;
     padding: 6px 14px;
   }
@@ -599,12 +613,16 @@
     padding: 14px 16px;
   }
 
+  .navLeft {
+    gap: 10px;
+  }
+
   .navTitle {
     font-size: 0.95rem;
     letter-spacing: 0.25em;
   }
 
-  .navHistory {
+  .navHistory, .navLogout {
     font-size: 0.6rem;
     padding: 6px 12px;
   }
@@ -657,12 +675,16 @@
     padding: 12px 14px;
   }
 
+  .navLeft {
+    gap: 8px;
+  }
+
   .navTitle {
     font-size: 0.75rem;
     letter-spacing: 0.15em;
   }
 
-  .navHistory {
+  .navHistory, .navLogout {
     font-size: 0.58rem;
     padding: 5px 10px;
   }

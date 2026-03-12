@@ -13,12 +13,27 @@ import backgroundAnimation from '../../src/animations/Animation - 1706525503750 
 import { useRouter } from 'next/navigation'
 //import backgroundAnimation from '../../src/animations/Background 3d stroke.json'
 // ── Nav Component ──────────────────────────────────────────────────────────────
+// next js router
+
 export function Nav() {
+  // nextjs router
+  const router = useRouter()
+
+  const handleLogout = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+
+    await fetch('/api/auth/logout', { method: 'POST' })
+
+    router.push('/')
+  }
   return (
     <nav className={styles.nav}>
       <Link href="/history" className={styles.navHistory}>
         History
       </Link>
+      <button onClick={handleLogout} className={styles.navHistory}>
+        Logout
+      </button>
       <h1 className={styles.navTitle}>
         <strong>Harry</strong>
       </h1>
@@ -47,8 +62,6 @@ function Harry() {
   const lottieRef = useRef<LottieRefCurrentProps | null>(null)
   const replyTextRef = useRef<HTMLDivElement | null>(null)
   const recognitionRef = useRef<any>(null)
-
-  const router = useRouter()
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -226,19 +239,10 @@ function Harry() {
   //   }
   // }, [isLoading])
 
-  const handleLogout = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    await fetch('/api/auth/logout', { method: 'POST' })
-    router.push('/')
-  }
-
   return (
     <div className={styles.page}>
       {/* ── Background atmosphere ── */}
-      <div className={styles.bgLottie}>
-        <Lottie animationData={backgroundAnimation} autoplay loop />
-      </div>
+
       <div className={styles.bgLayer}>
         <div className={styles.bgGlowCenter} />
         <div className={styles.bgGlowTop} />

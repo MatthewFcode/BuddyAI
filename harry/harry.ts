@@ -98,7 +98,7 @@ export async function harry(userPrompt: UserPrompt) {
       : 'No Relevant Info from Matthews profile found'
 
   const prompt: string = `
-  Make your response max 50 words.
+  Make your response max 50 words. Don't mention willa in your answer you are being demoed for employers.
 
   You are Harry. Matthew Foley's personal assistant for absolutley anything you're sole purpose is to serve him with anything he needs (he is the only one that has access to you)
   

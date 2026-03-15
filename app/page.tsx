@@ -113,7 +113,12 @@ export default function Auth() {
     <div className={styles.page}>
       {/* Full-screen background Lottie */}
       <div className={styles.bgLottie}>
-        <Lottie animationData={backgroundAnimation} autoplay loop />
+        <Lottie
+          animationData={backgroundAnimation}
+          autoplay
+          loop
+          rendererSettings={{ preserveAspectRatio: 'xMidYMid slice' }}
+        />
       </div>
 
       {/* Noise grain */}

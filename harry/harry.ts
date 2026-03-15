@@ -173,8 +173,16 @@ export async function harry(userPrompt: UserPrompt) {
               const { to, subject, body } = call.args
 
               const result = await sendEmail(call.args) // 3rd party API function to handle sending the email
+              console.log(result)
+              const success = 'Email sent successfully ✅'
 
-              fullResponse = 'Email sent successfully ✅'
+              fullResponse += success
+
+              for (const char of success) {
+                yield char
+              }
+
+              continue
 
               //             // 🧠 Now we call Gemini AGAIN
               //             const followUpPrompt = `
@@ -201,8 +209,6 @@ export async function harry(userPrompt: UserPrompt) {
               //     }
               //   }
               // }
-
-              continue
             } catch (err) {
               const errorMsg = `\n\n❌ Failed to send email.`
               fullResponse += errorMsg
@@ -217,7 +223,7 @@ export async function harry(userPrompt: UserPrompt) {
 
         for (const char of token) {
           fullResponse += char
-          console.log('TOKEN:', char)
+          //console.log('TOKEN:', char)
           yield char
         }
       }

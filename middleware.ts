@@ -17,6 +17,6 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   // this is just a matcher which tells middleware which routes to guard
-  matcher: ['/harry/:path*', '/history/:path*'], // protects the harry route and anything under it /harry/anything
+  matcher: ['/harry/:path*', '/history/:path*', '/api/chat/:path*'], // protects the harry route and anything under it /harry/anything
 }
 // we can add the api routes in here aswell

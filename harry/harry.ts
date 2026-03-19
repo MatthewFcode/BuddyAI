@@ -7,25 +7,25 @@ import { createClient } from '@supabase/supabase-js' // JavaScript client for su
 import { pipeline } from '@xenova/transformers' // runs ML models locally in JS
 import { sendEmail } from '../tools/resend'
 
-const model = new ChatGoogleGenerativeAI({
-  model: 'models/gemini-flash-latest',
-  temperature: 0.7,
-  streaming: true,
-  apiKey: process.env.GOOGLE_API_KEY,
-})
+// const model = new ChatGoogleGenerativeAI({
+//   model: 'models/gemini-flash-latest',
+//   temperature: 0.7,
+//   streaming: true,
+//   apiKey: process.env.GOOGLE_API_KEY,
+// })
 
-const langfuse = new Langfuse({
-  publicKey: process.env.LANGFUSE_PUBLIC_KEY,
-  secretKey: process.env.LANGFUSE_SECRET_KEY,
-  baseUrl: process.env.LANGFUSE_BASE_URL,
-}) // creating the langfuse client to log observability
+// const langfuse = new Langfuse({
+//   publicKey: process.env.LANGFUSE_PUBLIC_KEY,
+//   secretKey: process.env.LANGFUSE_SECRET_KEY,
+//   baseUrl: process.env.LANGFUSE_BASE_URL,
+// }) // creating the langfuse client to log observability
 
-//FOR RAG: used for accessing to the database and vector search
-const supabase = createClient(
-  // supabase setup (using the service role key) | gives us full database access, should only run on the server side and is never exposed to the frontend
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+// //FOR RAG: used for accessing to the database and vector search
+// const supabase = createClient(
+//   // supabase setup (using the service role key) | gives us full database access, should only run on the server side and is never exposed to the frontend
+//   process.env.SUPABASE_URL!,
+//   process.env.SUPABASE_SERVICE_ROLE_KEY!
+// )
 
 // local model for creating embeddings and running semantic similarity
 const embedPipeline = await pipeline(
@@ -45,6 +45,12 @@ async function embedQuery(text: string): Promise<number[]> {
 
 //FOR RAG ||
 async function retrieveContext(query: string) {
+  //FOR RAG: used for accessing to the database and vector search
+  const supabase = createClient(
+    // supabase setup (using the service role key) | gives us full database access, should only run on the server side and is never exposed to the frontend
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
   // helper retrieve function the R part of RAG-
   const embedding = await embedQuery(query) // converts the query into a vector
 
@@ -68,6 +74,26 @@ async function retrieveContext(query: string) {
 }
 
 export async function harry(userPrompt: UserPrompt) {
+  const model = new ChatGoogleGenerativeAI({
+    model: 'models/gemini-flash-latest',
+    temperature: 0.7,
+    streaming: true,
+    apiKey: process.env.GOOGLE_API_KEY,
+  })
+
+  const langfuse = new Langfuse({
+    publicKey: process.env.LANGFUSE_PUBLIC_KEY,
+    secretKey: process.env.LANGFUSE_SECRET_KEY,
+    baseUrl: process.env.LANGFUSE_BASE_URL,
+  }) // creating the langfuse client to log observability
+
+  //FOR RAG: used for accessing to the database and vector search
+  const supabase = createClient(
+    // supabase setup (using the service role key) | gives us full database access, should only run on the server side and is never exposed to the frontend
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+  // calling the clients in the function because of fukcing docker
   // start the langfuse trace on the useer prompt
   const trace = langfuse.trace({
     name: 'user',

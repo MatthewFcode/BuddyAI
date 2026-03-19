@@ -1,22 +1,23 @@
-import { test, describe, expect } from 'vitest'
+import { test, expect } from 'vitest'
 import { harry } from '../../harry/harry'
 
-// test('Post function to the harry API route returns a response from the Gemini API', async () => {
-//   //Arrange
+// this test needs finishing
+test('Post function to the harry API route returns a response from the Gemini API when cookies are attatched', async () => {
+  //Arrange
 
-//   const prompt: string = 'Wheres the LAMMMMBBB SAUCEEEE'
+  const prompt: string = 'Wheres the LAMMMMBBB SAUCEEEE'
 
-//   const promptHarry = async ({ prompt }: { prompt: string }) => {
-//     const result = await fetch('/api/chat', {
-//       method: 'POST',
-//       body: JSON.stringify(prompt),
-//     })
+  const promptHarry = async ({ prompt }: { prompt: string }) => {
+    const result = await fetch('/api/chat', {
+      method: 'POST',
+      body: JSON.stringify(prompt),
+    })
 
-//     return result
-//   }
+    return result
+  }
 
-//   const result = promptHarry({ prompt })
-// })
+  const result = promptHarry({ prompt })
+})
 
 test('just testing the harry function without the POST route', async () => {
   //Arrange
@@ -35,3 +36,5 @@ test('just testing the harry function without the POST route', async () => {
 
   expect(typeof fullResponse).toBe('string')
 })
+
+test('Testing the POST serverles API route for the harry route doesnt return anything when cookies arent attatched', async () => {})

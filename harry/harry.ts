@@ -58,7 +58,7 @@ async function retrieveContext(query: string) {
     // calls the supabase client
     // supabase Postgres function that compares all the vectors and returns the 5 most similar chunks
     query_embedding: embedding, // magic
-    match_count: 5, // returns the top 5 chunks to the query embedding above
+    match_count: 2, // returns the top 5 chunks to the query embedding above
   })
 
   if (error) {
@@ -109,6 +109,13 @@ export async function harry(userPrompt: UserPrompt) {
     orderBy: { chatTime: 'desc' },
   })
 
+  const historyText = todaysHistory
+    .slice(0, 5) // already ordered desc, so this is most recent 5
+    .reverse() // flip to chronological for the prompt
+    .map((h) => `Matthew: ${h.userPrompt}\nHarry: ${h.aiReply}`)
+    .join('\n\n')
+
+  console.log(historyText)
   //FOR RAG || using the vector search helper functions in our code and converting the results into readable text for the LLM
   const contextChunks = await retrieveContext(userPrompt.prompt)
 
@@ -137,7 +144,7 @@ export async function harry(userPrompt: UserPrompt) {
 
   You are Harry. Matthew Foley's personal assistant for absolutley anything you're sole purpose is to serve him with anything he needs (he is the only one that has access to you)
   
-  Here is todays chat history with you Harry ${JSON.stringify(todaysHistory)}
+  Here is todays chat history with you Harry ${JSON.stringify(historyText)}
 
   Here is what was pulled from the RAG pipeline from Matthews profile from this prompt ${contextText}
 

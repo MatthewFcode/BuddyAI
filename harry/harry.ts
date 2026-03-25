@@ -123,6 +123,16 @@ export async function harry(userPrompt: UserPrompt) {
           .join('\n\n')
       : 'No Relevant Info from Matthews profile found'
 
+  trace.span({
+    // a span is just opening another value  to bascailly track during the request lifecycle you know
+    name: 'rag_retrieval',
+    input: userPrompt.prompt,
+    output: contextChunks,
+    metadata: { similarities: contextChunks.map((c) => c.similarity) }, // adding the simliarity score to the metadata to be tracked by mapping through the context chunks and just extracting the similarity properties
+  })
+
+  const startLatency = Date.now()
+
   const prompt: string = `
   Make your response max 50 words. Don't mention willa in your answer you are being demoed for employers.
 
@@ -263,10 +273,13 @@ export async function harry(userPrompt: UserPrompt) {
       },
     })
 
+    const endLatency = Date.now() - startLatency
+
     //updating the current langfuse trace with the output from the user
     trace.update({
       name: 'Harry',
       output: fullResponse,
+      metadata: { latency: endLatency },
     })
   }
 

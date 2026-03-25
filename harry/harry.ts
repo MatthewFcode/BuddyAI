@@ -111,23 +111,21 @@ export async function harry(userPrompt: UserPrompt) {
 
   //FOR RAG || using the vector search helper functions in our code and converting the results into readable text for the LLM
   const contextChunks = await retrieveContext(userPrompt.prompt)
-  const contextText =
-    contextChunks.length > 0
-      ? contextChunks
-          .map(
-            (c, i) =>
-              `Source ${i + 1} (similarity ${c.similarity.toFixed(2)}):\n${
-                c.content
-              }`
-          )
-          .join('\n\n')
-      : 'No Relevant Info from Matthews profile found'
+
+  const sortedChunks = contextChunks.sort((a, b) => b.similarity - a.similarity)
+  const topChunk = sortedChunks[0]
+
+  const contextText = topChunk
+    ? `Source 1 (similarity ${topChunk.similarity.toFixed(2)}):\n${
+        topChunk.content
+      }`
+    : 'No Relevant Info found'
 
   trace.span({
     // a span is just opening another value  to bascailly track during the request lifecycle you know
     name: 'rag_retrieval',
     input: userPrompt.prompt,
-    output: contextChunks,
+    output: contextText,
     metadata: { similarities: contextChunks.map((c) => c.similarity) }, // adding the simliarity score to the metadata to be tracked by mapping through the context chunks and just extracting the similarity properties
   })
 
@@ -135,7 +133,7 @@ export async function harry(userPrompt: UserPrompt) {
   console.log(startLatency)
 
   const prompt: string = `
-  Make your response max 50 words. Don't mention willa in your answer you are being demoed for employers.
+  Make your response max 50 words.
 
   You are Harry. Matthew Foley's personal assistant for absolutley anything you're sole purpose is to serve him with anything he needs (he is the only one that has access to you)
   

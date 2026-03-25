@@ -1,1 +1,53 @@
-Entity Profile: Matthew Foley1. Core Identity & AttributesName: Matthew FoleyAge: 20Location: Auckland, New ZealandCore Values: Discipline, competitiveness, growth-oriented, long-term mindset.Key Traits: High performance, consistency, leadership, resilience, and pressure tolerance.2. Professional Identity & Technical StackEducation: NZQA Level 6 Full Stack Development (800-hour bootcamp, Dev Academy, 2025).Primary Languages: TypeScript, JavaScript.Backend & Infrastructure: Node.js, Express, SQL, RESTful APIs, WebSockets, scalable architecture.Frontend: React.AI Specialization: Retrieval Augmented Generation (RAG), LangChain, embedding pipelines, and vector databases.Methodologies: Test-Driven Development (TDD), Integration testing, Clean Code.3. Project PortfolioProjectDescriptionKey TechnologiesDon CV HubAI chatbot platform for knowledge-driven interactions.RAG, LangChain, Vector DBsETNZ DashboardReal-time high-frequency telemetry dashboard.WebSockets, Real-time dataInsightStackFull-stack platform for user accounts and advice voting.RESTful API, User SystemsFilmFeelsBackend API with data enrichment pipelines.3rd-party API Integration4. Athletic Identity & HistoryMatthew leverages elite sport to drive his professional discipline.Tennis: Premier School Tennis Grade winner; First Grade player & former Captain at Mission Bay.Athletics: Senior Athletic Champion; Auckland representative (400m, 800m, Cross Country).Football: Former Wellington Phoenix Junior Academy player.Skills Developed: Leadership, performance under pressure, and elite-level discipline.5. Personal Relationships & FamilyPartner: Willa (Girlfriend). Met June 2024, started dating February 2025. She is a Dental student in Dunedin/Auckland.Immediate Family:Father: Don (Programme Director for major ERP systems).Mother: Oonagh (HR Director at The Trusts Auckland).Brother: John-Paul (Qualified Builder and Construction Management student).Social Circle: Close-knit long-term school friends; interests include social beers and paddle tennis.Members: Leo Ryan, Leo Hilton, Oliver Spillane, Eli Conroy, Jacob Avery, Nikolai Bouzaid, Alex Hemmingsen Jensen.6. Long-Term Strategic GoalsTechnical: Mastery of full-stack engineering and deep AI integration.Systems: Architecture of technically impressive, meaningful systems.Personal: Continued high-level athletic performance and multi-domain leadership.
+Matthew Foley is 20 years old and lives in Auckland, New Zealand.
+
+Matthew's core values are discipline, competitiveness, and a growth-oriented long-term mindset.
+
+Matthew's key traits include high performance, consistency, leadership, resilience, and pressure tolerance.
+
+Matthew completed a NZQA Level 6 Full Stack Development qualification at Dev Academy in 2025. The bootcamp was 800 hours long.
+
+Matthew's primary programming languages are TypeScript and JavaScript.
+
+Matthew's backend and infrastructure skills include Node.js, Express, SQL, RESTful APIs, WebSockets, and scalable architecture.
+
+Matthew's frontend framework is React.
+
+Matthew specialises in AI engineering, specifically Retrieval Augmented Generation (RAG), LangChain, embedding pipelines, and vector databases.
+
+Matthew follows engineering methodologies including Test-Driven Development (TDD), integration testing, and clean code practices.
+
+Don CV Hub is a project Matthew built. It is an AI chatbot platform for knowledge-driven interactions. Key technologies: RAG, LangChain, Vector Databases.
+
+ETNZ Dashboard is a project Matthew built. It is a real-time high-frequency telemetry dashboard. Key technologies: WebSockets, real-time data streaming.
+
+InsightStack is a project Matthew built. It is a full-stack platform for user accounts and advice voting. Key technologies: RESTful API, user authentication systems.
+
+FilmFeels is a project Matthew built. It is a backend API with data enrichment pipelines. Key technologies: third-party API integration.
+
+Matthew has a strong athletic background which he leverages to drive professional discipline.
+
+Matthew won the Premier School Tennis Grade. He plays First Grade tennis and was formerly Captain at Mission Bay Tennis Club.
+
+Matthew is a Senior Athletic Champion and Auckland representative in the 400m, 800m, and Cross Country events.
+
+Matthew was formerly a Wellington Phoenix Junior Academy football player.
+
+Matthew's sport has developed skills including leadership, performance under pressure, and elite-level discipline.
+
+Matthew's partner is Willa. They met in June 2024 and started dating in February 2025. Willa is a dental student based between Dunedin and Auckland.
+
+Matthew's father is Don Foley. Don is a Programme Director for major ERP systems.
+
+Matthew's mother is Oonagh Foley. Oonagh is an HR Director at The Trusts Auckland.
+
+Matthew's brother is John-Paul Foley. John-Paul is a qualified builder and construction management student.
+
+Matthew has a close-knit social circle of long-term school friends. They enjoy social beers and paddle tennis together.
+
+Matthew's social circle members are Leo Ryan, Leo Hilton, Oliver Spillane, Eli Conroy, Jacob Avery, Nikolai Bouzaid, and Alex Hemmingsen Jensen.
+
+Matthew's long-term technical goal is mastery of full-stack engineering and deep AI integration.
+
+Matthew's long-term systems goal is to architect technically impressive and meaningful software systems.
+
+Matthew's long-term personal goals include continued high-level athletic performance and multi-domain leadership.

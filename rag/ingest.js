@@ -17,33 +17,89 @@ const embedPipeline = await pipeline(
 )
 
 // helper function for breaking up text
-function chunkText(text, chunkSize = 100, overlap = 20) {
-  const words = text.split(' ')
+function chunkText(text, maxWords = 40, overlapSentences = 1) {
+  // const words = text.split(' ')
+  // const chunks = []
+  // let i = 0
+  // while (i < words.length) {
+  //   const chunk = words.slice(i, i + chunkSize).join(' ')
+  //   chunks.push(chunk)
+  //   i += chunkSize - overlap
+  // }
+  // return chunks
+
+  const paragraphs = text
+    .split(/\n{2,}/)
+    .map((p) => p.replace(/[\r\n]+/g, ' ').trim())
+    .filter(Boolean)
+
   const chunks = []
-  let i = 0
-  while (i < words.length) {
-    const chunk = words.slice(i, i + chunkSize).join(' ')
-    chunks.push(chunk)
-    i += chunkSize - overlap
+
+  for (const para of paragraphs) {
+    // Split paragraph into sentences (period/exclamation/question followed by space or end)
+    const sentences = para
+      .split(/(?<=[.!?])\s+/)
+      .map((s) => s.trim())
+      .filter(Boolean)
+
+    let buffer = []
+
+    const flush = () => {
+      const chunk = buffer.join(' ').trim()
+      if (chunk) chunks.push(chunk)
+    }
+
+    for (const sentence of sentences) {
+      const prospective = [...buffer, sentence]
+      const wordCount = prospective.join(' ').split(/\s+/).length
+
+      if (wordCount > maxWords && buffer.length > 0) {
+        flush()
+        // Carry over the last `overlapSentences` sentences for context
+        buffer = buffer.slice(-overlapSentences)
+      }
+      buffer.push(sentence)
+    }
+
+    flush()
+    buffer = []
   }
+
   return chunks
 }
 
+// async function getEmbeddings(texts) {
+//   // takes the array of text chunks and process each chunk one at a time
+//   const vectors = []
+
+//   for (const t of texts) {
+//     const output = await embedPipeline(t, {
+//       pooling: 'mean', // pooling we are taking all the tokens for our embedding and averaging them to create and average embedding
+//       normalize: true, //
+//     })
+
+//     // Xenova returns a Float32Array in `data`
+//     const vector = Array.from(output.data)
+
+//     if (vector.length !== 384) {
+//       console.warn(`⚠️ Invalid vector length: ${vector.length}`)
+//     }
+
+//     vectors.push(vector)
+//   }
+
+//   return vectors
+// }
+
 async function getEmbeddings(texts) {
-  // takes the array of text chunks and process each chunk one at a time
   const vectors = []
 
   for (const t of texts) {
-    const output = await embedPipeline(t, {
-      pooling: 'mean', // pooling we are taking all the tokens for our embedding and averaging them to create and average embedding
-      normalize: true, //
-    })
-
-    // Xenova returns a Float32Array in `data`
+    const output = await embedPipeline(t, { pooling: 'mean', normalize: true })
     const vector = Array.from(output.data)
 
     if (vector.length !== 384) {
-      console.warn(`⚠️ Invalid vector length: ${vector.length}`)
+      console.warn(`⚠️  Invalid vector length: ${vector.length}`)
     }
 
     vectors.push(vector)
@@ -53,11 +109,18 @@ async function getEmbeddings(texts) {
 }
 
 // cleaner function
+// function cleanText(text) {
+//   return text
+//     .replace(/\*\*/g, '') // remove bold markers
+//     .replace(/[\r\n]+/g, ' ') // replace newlines with space
+//     .replace(/\s+/g, ' ') // collapse multiple spaces
+//     .trim()
+// }
 function cleanText(text) {
   return text
-    .replace(/\*\*/g, '') // remove bold markers
-    .replace(/[\r\n]+/g, ' ') // replace newlines with space
-    .replace(/\s+/g, ' ') // collapse multiple spaces
+    .replace(/\*\*/g, '') // remove markdown bold
+    .replace(/\r\n/g, '\n') // normalise line endings
+    .replace(/[ \t]+/g, ' ') // collapse inline whitespace (preserve \n for chunker)
     .trim()
 }
 

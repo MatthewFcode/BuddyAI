@@ -132,6 +132,7 @@ export async function harry(userPrompt: UserPrompt) {
   })
 
   const startLatency = Date.now()
+  console.log(startLatency)
 
   const prompt: string = `
   Make your response max 50 words. Don't mention willa in your answer you are being demoed for employers.
@@ -275,11 +276,13 @@ export async function harry(userPrompt: UserPrompt) {
 
     const endLatency = Date.now() - startLatency
 
+    console.log(endLatency)
+
     //updating the current langfuse trace with the output from the user
     trace.update({
       name: 'Harry',
       output: fullResponse,
-      metadata: { latency: endLatency },
+      metadata: { latency: endLatency }, // adding the latency into the metadata as milliseconds and that starts at the time the information is sent to the gemini api to the time the streaming is done
     })
   }
 

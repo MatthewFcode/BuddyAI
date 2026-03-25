@@ -144,7 +144,7 @@ export async function harry(userPrompt: UserPrompt) {
 
   You are Harry. Matthew Foley's personal assistant for absolutley anything you're sole purpose is to serve him with anything he needs (he is the only one that has access to you)
   
-  Here is todays chat history with you Harry ${JSON.stringify(historyText)}
+  Here is todays chat history with you Harry ${historyText}
 
   Here is what was pulled from the RAG pipeline from Matthews profile from this prompt ${contextText}
 

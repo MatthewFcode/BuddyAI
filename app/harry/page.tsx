@@ -213,6 +213,7 @@ function Harry() {
     setIsLoading(false) // turn off the animation
     lottieRef.current?.setSpeed(1)
     speak(fullResponse) // broswer TTS function is called
+    setPrompt('')
   }
 
   useEffect(() => {

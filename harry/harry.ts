@@ -210,6 +210,8 @@ export async function harry(userPrompt: UserPrompt) {
       // 🔥 TOOL CALL DETECTED
       if (anyChunk.tool_calls) {
         for (const call of anyChunk.tool_calls) {
+          const startToolLatency = Date.now()
+
           if (call.name === 'send_email') {
             try {
               const { to, subject, body } = call.args
@@ -220,9 +222,17 @@ export async function harry(userPrompt: UserPrompt) {
 
               fullResponse += success
 
-              for (const char of success) {
+              for (const char of fullResponse) {
                 yield char
               }
+              const endToolLatency = Date.now() - startToolLatency
+
+              trace.span({
+                name: 'email_tool',
+                input: call.args,
+                output: fullResponse,
+                metadata: { latency: endToolLatency },
+              })
 
               continue
 

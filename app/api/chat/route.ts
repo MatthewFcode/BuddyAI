@@ -1,4 +1,4 @@
-'use server'
+'use server' // ERROR alert: use server is meant for the server actions that occur within react components
 
 import { NextResponse } from 'next/server'
 import { harry } from '../../../harry/harry'
